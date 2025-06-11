@@ -1,0 +1,16 @@
+# Node.js
+node_modules/
+dist/
+.env
+
+# Angular
+.angular/
+.angular/cache/
+*.log
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
