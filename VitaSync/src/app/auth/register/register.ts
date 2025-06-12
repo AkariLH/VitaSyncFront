@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../auth';
 
 @Component({
   standalone: true,
@@ -16,10 +17,10 @@ export class Register {
   registerForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.registerForm = this.fb.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
@@ -42,7 +43,22 @@ export class Register {
     this.submitted = true;
     if (this.registerForm.invalid) return;
 
-    alert('Cuenta creada exitosamente ✅');
-    this.router.navigate(['/auth/login']);
+    const payload = {
+      nombreUsuario: this.registerForm.value.nombre,
+      apellidoUsuario: this.registerForm.value.apellido,
+      correoElectronico: this.registerForm.value.email,
+      claveAcceso: this.registerForm.value.password
+    };
+
+    this.authService.register(payload).subscribe({
+      next: () => {
+        alert('Cuenta creada exitosamente ✅');
+        this.router.navigate(['/auth/login']);
+      },
+      error: (err) => {
+        alert('Error al crear la cuenta');
+        console.error(err);
+      }
+    });
   }
 }

@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { Tasks } from './tasks/pages/tasks';
+import { TaskCreate } from './tasks/components/task-create/task-create';
+import { CategoryModal } from './tasks/components/category-modal/category-modal';
 
 export const routes: Routes = [
   {
@@ -10,8 +13,11 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'auth/login'
   },
+  {path: 'tasks', component: Tasks},
+  {path: 'taskscreate', component: TaskCreate},
+  {path: 'categorias', component: CategoryModal},
   {
-    path: '**',
+  path: '**',
     redirectTo: 'auth/login'
   }
 ];

@@ -1,7 +1,19 @@
 :root {
   --color-primary: #4DB6AC;
-  --color-background: #F5F5F5;
   --color-accent: #8E24AA;
+  --color-background: #F5F5F5;
+  --color-foreground: #000000;
+  --color-muted: #E0E0E0;
   --color-text: #222;
-  --color-error: #D32F2F;
-}/* You can add global styles to this file, and also import other style files */
+  --color-danger: #D32F2F;
+  --color-subtitule: hsl(0, 0%, 45.1%);
+  --radius: 12px;
+  --btn-radius: 6px;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+}

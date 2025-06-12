@@ -1,0 +1,179 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  z-index: 1001;
+  width: 95%;
+  max-width: 520px;
+  padding: 28px 24px;
+}
+
+/* Cabecera */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--color-subtitule);
+  cursor: pointer;
+  padding: 4px;
+}
+.close-btn:hover {
+  color: var(--color-foreground);
+}
+
+/* Subtítulo */
+.modal-subtitle {
+  font-size: 14px;
+  color: var(--color-subtitule);
+  margin-bottom: 20px;
+}
+
+/* Grupos de formulario */
+.form-group {
+  margin-bottom: 1.6rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+
+/* Lista de categorías */
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--btn-radius);
+  background: var(--color-background);
+  margin-bottom: 10px;
+}
+
+.color-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-muted);
+}
+
+.cat-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Botones de acción */
+.category-list button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--color-subtitule);
+}
+.category-list button:hover {
+  color: var(--color-primary);
+}
+
+.category-list i {
+  pointer-events: none;
+}
+
+/* Fila para añadir categoría */
+.add-category-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.add-category-row input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--color-muted);
+  background: #fafafa;
+  font-size: 14px;
+  color: var(--color-text);
+  outline: none;
+}
+.add-category-row input[type="color"] {
+  width: 42px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--btn-radius);
+}
+
+/* Botones principales */
+.btn-primary {
+  background: var(--color-primary);
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover {
+  background: #3ca89d;
+}
+
+.btn-outline {
+  background: white;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  padding: 10px 18px;
+  border-radius: var(--btn-radius);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-outline:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Footer del modal */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}

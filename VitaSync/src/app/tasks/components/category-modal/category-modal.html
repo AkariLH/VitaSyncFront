@@ -1,0 +1,35 @@
+<div class="modal-backdrop" (click)="close()"></div>
+
+<div class="modal">
+  <div class="modal-header">
+    <h2>Gestionar Categorías</h2>
+    <button class="close-btn" (click)="close()">×</button>
+  </div>
+
+  <p class="modal-subtitle">Añade, edita o elimina tus categorías de tareas.</p>
+
+  <div class="form-group">
+    <label>Categorías Existentes</label>
+    <ul class="category-list">
+      <li *ngFor="let cat of categorias">
+        <span class="color-indicator" [style.background]="cat.color"></span>
+        <span class="cat-name">{{ cat.nombre }}</span>
+        <button (click)="edit(cat)" title="Editar"><i class="fa fa-pen"></i></button>
+        <button (click)="delete(cat)" title="Eliminar"><i class="fa fa-trash"></i></button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-group">
+    <label>Añadir Nueva Categoría</label>
+    <div class="add-category-row">
+      <input type="text" placeholder="Nombre de la categoría" [(ngModel)]="nuevaCategoria.nombre" />
+      <input type="color" [(ngModel)]="nuevaCategoria.color" />
+      <button (click)="add()" class="btn-primary">Añadir Categoría</button>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button class="btn-outline" (click)="close()">Cerrar</button>
+  </div>
+</div>

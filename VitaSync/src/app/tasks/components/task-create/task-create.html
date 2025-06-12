@@ -1,0 +1,87 @@
+<div class="modal-backdrop" (click)="closeModal()"></div>
+
+<div class="modal">
+  <div class="modal-header">
+    <h2>Añadir Nueva Tarea</h2>
+    <button class="close-btn" (click)="closeModal()">×</button>
+  </div>
+
+  <p class="modal-subtitle">Completa los detalles para tu nueva tarea.</p>
+
+  <form (ngSubmit)="createTask()">
+    <div class="form-group">
+      <label>Nombre Tarea</label>
+      <input type="text" [(ngModel)]="task.titulo" name="titulo" required />
+    </div>
+
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea [(ngModel)]="task.descripcion" name="descripcion"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Categoría</label>
+        <select [(ngModel)]="task.categoria" name="categoria">
+          <option value="">Sin categoría</option>
+          <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Fecha Entrega</label>
+        <input type="datetime-local" [(ngModel)]="task.entrega" name="entrega" />
+      </div>
+
+      <div class="form-group">
+        <label>Fecha Inicio</label>
+        <input type="date" [(ngModel)]="task.inicio" name="inicio" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Prioridad</label>
+        <select [(ngModel)]="task.prioridad" name="prioridad">
+          <option value="Alta">Alta</option>
+          <option value="Media">Media</option>
+          <option value="Baja">Baja</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Dificultad</label>
+        <select [(ngModel)]="task.dificultad" name="dificultad">
+          <option value="Difícil">Difícil</option>
+          <option value="Media">Media</option>
+          <option value="Fácil">Fácil</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Estado</label>
+        <select [(ngModel)]="task.estado" name="estado">
+          <option value="Pendiente">Pendiente</option>
+          <option value="En Progreso">En Progreso</option>
+          <option value="Bloqueada">Bloqueada</option>
+          <option value="Completada">Completada</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Subtareas</label>
+      <div class="subtask-input">
+        <input type="text" [(ngModel)]="nuevaSubtarea" name="subtarea" placeholder="Nueva subtarea..." />
+        <button type="button" class="btn-subtarea" (click)="addSubtarea()">Añadir Subtarea</button>
+      </div>
+      <ul class="subtask-list">
+        <li *ngFor="let st of task.subtareas">{{ st }}</li>
+      </ul>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-primary">Crear Tarea</button>
+    </div>
+  </form>
+</div>

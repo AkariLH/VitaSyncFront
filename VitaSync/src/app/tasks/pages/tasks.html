@@ -1,0 +1,71 @@
+<div class="task-dashboard">
+  <div class="header-row">
+    <div class="header-title">
+      <span class="icon"><i class="fa-solid fa-list-check"></i></span>
+      <div>
+        <h1 class="title">Gestión de Tareas</h1>
+        <p class="subtitle">Organiza, sigue y gestiona tus tareas eficientemente.</p>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="btn-primary" (click)="openModal()">
+        <i class="fa-solid fa-plus"></i> Añadir Nueva Tarea
+      </button>
+      <app-task-modal
+        *ngIf="modalVisible"
+        (onClose)="closeModal()"
+        (onCreate)="onTaskCreated($event)">
+      </app-task-modal>
+      <button class="btn-accent" (click)="openCategoryModal()">
+        <i class="fa-solid fa-layer-group"></i> Gestionar Categorías
+      </button>
+      <app-category-modal
+        *ngIf="categoryModalVisible"
+        (onClose)="closeCategoryModal()">
+      </app-category-modal>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter-box">
+      <label for="categoryFilter"><i class="fa-solid fa-filter"></i> Filtrar por Categoría:</label>
+      <select id="categoryFilter">
+        <option>Todas las Categorías</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="task-grid">
+    <div class="task-card" *ngFor="let task of tasks">
+      <div class="task-header">
+        <div>
+          <h3>{{ task.titulo }}</h3>
+          <p class="description">{{ task.descripcion }}</p>
+        </div>
+        <span [ngClass]="['category', task.categoria ? task.categoria.toLowerCase() : '']">{{ task.categoria }}</span>
+      </div>
+
+      <div class="task-info">
+        <span class="badge estado-badge">
+          <select [(ngModel)]="task.estado" class="estado-select">
+            <option value="Pendiente">Pendiente</option>
+            <option value="En Progreso">En Progreso</option>
+            <option value="Completado">Completado</option>
+          </select>
+        </span>
+        <span class="badge">{{ task.dificultad }}</span>
+        <span class="badge priority">{{ task.prioridad }}</span>
+      </div>
+      <hr class="task-divider">
+      <div class="task-dates">
+        <span class="info"><i class="fa-solid fa-calendar-days"></i> <strong>Entrega:</strong> {{ task.entrega }}</span>
+
+      </div>
+
+      <div class="actions">
+        <button class="edit-btn" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete-btn" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
