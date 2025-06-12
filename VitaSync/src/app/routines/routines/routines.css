@@ -1,0 +1,230 @@
+.routine-page {
+  padding: 2rem;
+  background: var(--color-background);
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--btn-radius);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: #3ca89d;
+}
+
+.routine-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.routine-card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+}
+.routine-card:hover {
+  transform: translateY(-3px);
+}
+
+.routine-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.routine-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.routine-header p {
+  font-size: 13px;
+  color: var(--color-subtitule);
+  margin: 4px 0 0 0;
+}
+
+.tags .tag {
+  background: var(--color-muted);
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  white-space: nowrap;
+}
+
+.routine-info {
+  font-size: 13px;
+  color: var(--color-text);
+  margin: 10px 0 12px;
+}
+.routine-info i {
+  margin-right: 6px;
+  color: var(--color-subtitule);
+}
+
+.progress-bar {
+  height: 6px;
+  background: var(--color-muted);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  background: var(--color-primary);
+  height: 100%;
+  width: 0;
+  transition: width 0.3s ease;
+}
+.progress-text {
+  font-size: 12px;
+  color: var(--color-subtitule);
+  margin: 6px 0 10px;
+}
+
+.routine-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--btn-radius);
+  padding: 8px 12px;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.step:hover {
+  background: var(--color-muted);
+}
+
+.step span {
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+.step span.done {
+  text-decoration: line-through;
+  color: var(--color-subtitule);
+}
+
+.check-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--color-subtitule);
+  background-color: white;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.check-btn.checked {
+  border-color: var(--color-primary);
+  animation: bounce 0.25s ease-out;
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transform: translateY(-50%);
+  transition: stroke-dashoffset 0.3s ease, transform 0.3s ease;
+}
+
+.check-btn.checked .checkmark {
+  stroke-dashoffset: 0;
+  transform: translateY(0%);
+}
+
+.routine-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.routine-actions button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--color-subtitule);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.routine-actions button:hover {
+  color: var(--color-accent);
+}
+
+/* Agrupa el título, subtítulo e ícono en una sola fila */
+.header-title-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-direction: row;
+}
+
+.routine-icon {
+  font-size: 2.5rem;
+  order: 0;
+}
+
+
+.main-color {
+  color: var(--color-primary);
+}
+
+@media (max-width: 1024px) {
+  .routine-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .routine-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -12,8 +12,8 @@
     <label>Categorías Existentes</label>
     <ul class="category-list">
       <li *ngFor="let cat of categorias">
-        <span class="color-indicator" [style.background]="cat.color"></span>
-        <span class="cat-name">{{ cat.nombre }}</span>
+        <span class="color-indicator" [style.background]="cat.colorCategoria"></span>
+        <span class="cat-name">{{ cat.nombreCategoria }}</span>
         <button (click)="edit(cat)" title="Editar"><i class="fa fa-pen"></i></button>
         <button (click)="delete(cat)" title="Eliminar"><i class="fa fa-trash"></i></button>
       </li>
@@ -23,8 +23,8 @@
   <div class="form-group">
     <label>Añadir Nueva Categoría</label>
     <div class="add-category-row">
-      <input type="text" placeholder="Nombre de la categoría" [(ngModel)]="nuevaCategoria.nombre" />
-      <input type="color" [(ngModel)]="nuevaCategoria.color" />
+      <input type="text" placeholder="Nombre de la categoría" [(ngModel)]="nuevaCategoria.nombreCategoria" />
+      <input type="color" [(ngModel)]="nuevaCategoria.colorCategoria" />
       <button (click)="add()" class="btn-primary">Añadir Categoría</button>
     </div>
   </div>

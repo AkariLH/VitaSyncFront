@@ -1,0 +1,55 @@
+<div class="routine-page">
+  <div class="header-row">
+    <div class="header-title-icon">
+      <i class="fa fa-retweet main-color routine-icon"></i>
+      <div>
+        <h1 class="title">Rutinas</h1>
+        <p class="subtitle">Crea consistencia con rutinas estructuradas y sigue el progreso de sus pasos.</p>
+      </div>
+    </div>
+    <button class="btn-primary" (click)="crearRutina()">+ Crear Rutina</button>
+  </div>
+
+  <div class="routine-grid">
+    <div class="routine-card" *ngFor="let rutina of rutinas">
+      <div class="routine-header">
+        <div>
+          <h2>{{ rutina.nombre }}</h2>
+          <p>{{ rutina.descripcion }}</p>
+        </div>
+        <div class="tags">
+          <span class="tag">{{ rutina.frecuencia }}</span>
+        </div>
+      </div>
+
+      <div class="routine-info">
+        <p><i class="fa fa-clock"></i> Hora: {{ rutina.hora }}</p>
+        <p><i class="fa fa-hourglass-start"></i> Duración: {{ rutina.duracion }} min</p>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="(rutina.pasosCompletados / rutina.pasos.length) * 100"></div>
+      </div>
+      <small class="progress-text">{{ rutina.pasosCompletados }} de {{ rutina.pasos.length }}</small>
+
+      <div class="routine-steps">
+        <div *ngFor="let paso of rutina.pasos; let i = index" class="step">
+          <span [class.done]="paso.completado">{{ paso.nombre }}</span>
+          <button
+            class="check-btn"
+            [class.checked]="paso.completado"
+            (click)="togglePaso(rutina, i)">
+            <svg viewBox="0 0 24 24" class="checkmark">
+              <path d="M6 12l4 4 8-8" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="routine-actions">
+        <button title="Editar"><i class="fa fa-pen"></i></button>
+        <button title="Eliminar"><i class="fa fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
