@@ -28,7 +28,8 @@
           <app-task-modal
             *ngIf="modalVisible"
             (onClose)="closeModal()"
-            (onCreate)="onTaskCreated($event)">
+            (onCreate)="onTaskCreated($event)"
+            [usuarioId]="user.id">
           </app-task-modal>
           <button class="btn-accent" (click)="openCategoryModal()">
             <i class="fa-solid fa-layer-group"></i> Gestionar Categorías

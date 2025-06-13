@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskCreate } from '../components/task-create/task-create';
 import { CategoryModal } from '../components/category-modal/category-modal';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Task } from '../services/task';
 import { TaskService } from '../services/task';
 import { OnInit } from '@angular/core';
@@ -25,19 +25,18 @@ export class Tasks implements OnInit {
   tasks: any[] = [];
   user = JSON.parse(localStorage.getItem('user') || '{}');
   usuarioId = this.user.id || 0;
-  constructor(private TaskService: TaskService, private router: Router) {}
-
+  constructor(private TaskService: TaskService, private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
-  this.loadTasks();
+    this.loadTasks();
   // Borrar el siguiente código si no es necesario solo es para verificar sesión
-  const user = localStorage.getItem('user');
-    if (user) {
-      console.log('Sesión activa:', JSON.parse(user));
-    } else {
-      console.log('No hay sesión, redirigiendo...');
-      this.router.navigate(['/login']);
-    }
+    const user = localStorage.getItem('user');
+      if (user) {
+        console.log('Sesión activa:', JSON.parse(user));
+      } else {
+        console.log('No hay sesión, redirigiendo...');
+        this.router.navigate(['/login']);
+      }
   }
 
   loadTasks() {

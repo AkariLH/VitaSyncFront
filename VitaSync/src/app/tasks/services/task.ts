@@ -6,15 +6,15 @@ export interface Task {
   id?: number;
   nombreTarea: string;
   descripcionTarea: string;
-  fechaCreacionTarea?: string;
-  fechaEntregaTarea?: string;
-  fechaInicioTarea?: string;
-  fechaFinTarea?: string;
+  fechaCreacionTarea?: string; // Se asigna al crear
+  fechaEntregaTarea?: string; // Opcional, del formulario
+  fechaInicioTarea?: string | null; // Opcional, del formulario
+  fechaFinTarea?: string  | null; // No se envía al crear
   fechaActualizacion?: string;
   prioridad: string;
   dificultado: string;
   estado: string;
-  usuarioId: number;
+  usuarioId: number | 0; // Se asigna al crear
   dependencia?: number;
   subtareaDe?: number;
   categoria?: number;

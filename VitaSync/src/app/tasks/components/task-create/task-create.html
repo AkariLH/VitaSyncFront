@@ -8,77 +8,83 @@
 
   <p class="modal-subtitle">Completa los detalles para tu nueva tarea.</p>
 
-  <form (ngSubmit)="createTask()">
+  <form (ngSubmit)="createTask()" #taskForm="ngForm">
     <div class="form-group">
-      <label>Nombre Tarea</label>
-      <input type="text" [(ngModel)]="task.titulo" name="titulo" required />
+      <label>Nombre Tarea *</label>
+      <input type="text" [(ngModel)]="task.nombreTarea" name="nombreTarea" required />
+      <div *ngIf="taskForm.submitted && !task.nombreTarea" class="error">
+        El nombre es obligatorio.
+      </div>
     </div>
 
     <div class="form-group">
       <label>Descripción</label>
-      <textarea [(ngModel)]="task.descripcion" name="descripcion"></textarea>
+      <textarea [(ngModel)]="task.descripcionTarea" name="descripcionTarea"></textarea>
     </div>
 
     <div class="form-row">
       <div class="form-group">
-        <label>Categoría</label>
-        <select [(ngModel)]="task.categoria" name="categoria">
-          <option value="">Sin categoría</option>
-          <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+        <label>Categoría *</label>
+        <select [(ngModel)]="task.categoria" name="categoria" required>
+          <option [ngValue]="null" disabled selected>Selecciona una categoría</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{ cat.nombreCategoria }}</option>
         </select>
+        <div *ngIf="taskForm.submitted && !task.categoria" class="error">
+          La categoría es obligatoria.
+        </div>
       </div>
 
       <div class="form-group">
         <label>Fecha Entrega</label>
-        <input type="datetime-local" [(ngModel)]="task.entrega" name="entrega" />
+        <input type="date" [(ngModel)]="task.fechaEntregaTarea" name="fechaEntregaTarea" />
       </div>
 
       <div class="form-group">
         <label>Fecha Inicio</label>
-        <input type="date" [(ngModel)]="task.inicio" name="inicio" />
+        <input type="datetime-local" [(ngModel)]="task.fechaInicioTarea" name="fechaInicioTarea" />
       </div>
     </div>
 
     <div class="form-row">
       <div class="form-group">
-        <label>Prioridad</label>
-        <select [(ngModel)]="task.prioridad" name="prioridad">
-          <option value="Alta">Alta</option>
-          <option value="Media">Media</option>
-          <option value="Baja">Baja</option>
+        <label>Prioridad *</label>
+        <select [(ngModel)]="task.prioridad" name="prioridad" required>
+          <option value="baja">Baja</option>
+          <option value="media">Media</option>
+          <option value="alta">Alta</option>
+          <option value="critica">Crítica</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>Dificultad</label>
-        <select [(ngModel)]="task.dificultad" name="dificultad">
-          <option value="Difícil">Difícil</option>
-          <option value="Media">Media</option>
-          <option value="Fácil">Fácil</option>
+        <label>Dificultad *</label>
+        <select [(ngModel)]="task.dificultado" name="dificultado" required>
+          <option value="facil">Fácil</option>
+          <option value="media">Media</option>
+          <option value="dificil">Difícil</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>Estado</label>
-        <select [(ngModel)]="task.estado" name="estado">
+        <label>Estado *</label>
+        <select [(ngModel)]="task.estado" name="estado" required>
           <option value="Pendiente">Pendiente</option>
-          <option value="En Progreso">En Progreso</option>
-          <option value="Bloqueada">Bloqueada</option>
-          <option value="Completada">Completada</option>
+          <option value="En_progreso">En progreso</option>
+          <option value="Hecho">Hecho</option>
+          <option value="Cancelado">Cancelado</option>
         </select>
       </div>
     </div>
 
     <div class="form-group">
-      <label>Subtareas</label>
-      <div class="subtask-input">
-        <input type="text" [(ngModel)]="nuevaSubtarea" name="subtarea" placeholder="Nueva subtarea..." />
-        <button type="button" class="btn-subtarea" (click)="addSubtarea()">Añadir Subtarea</button>
-      </div>
-      <ul class="subtask-list">
-        <li *ngFor="let st of task.subtareas">{{ st }}</li>
-      </ul>
+      <label>Dependencia</label>
+      <select [(ngModel)]="task.dependencia" name="dependencia">
+        <option [ngValue]="null">Sin dependencia</option>
+        <option *ngFor="let t of tareas" [ngValue]="t.id">{{ t.nombreTarea }}</option>
+      </select>
     </div>
+
+    
 
     <div class="form-actions">
       <button type="submit" class="btn-primary">Crear Tarea</button>
