@@ -2,6 +2,8 @@
   --color-primary: #4DB6AC;
   --color-accent: #8E24AA;
   --color-background: #F5F5F5;
+  --color-sidebar: #ffffff;
+  --color-border: #E0E0E0;
   --color-foreground: #000000;
   --color-muted: #E0E0E0;
   --color-text: #222;
@@ -9,6 +11,7 @@
   --color-subtitule: hsl(0, 0%, 45.1%);
   --radius: 12px;
   --btn-radius: 6px;
+  --transition: 0.3s ease;
 }
 
 body {
@@ -30,4 +33,40 @@ body {
   font-size: 20px;
   margin: 4px 0 0 0;
   max-width: 100%;
+}
+
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: var(--color-background);
+}
+
+.main-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.open-btn {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 2000;
+  background: var(--color-background);
+  color: var(--color-primary);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.open-btn:hover {
+  background: #44b2a3;
 }

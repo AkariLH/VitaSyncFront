@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Sidebar } from '../../sidebar/sidebar';
 @Component({
   selector: 'app-routines',
   standalone: true,
@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class Routines {
+  sidebarOpen = true;
   rutinas = [
     {
       nombre: 'Rutina Matutina',

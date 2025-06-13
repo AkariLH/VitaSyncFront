@@ -1,0 +1,18 @@
+<div class="dashboard-container">
+  <app-sidebar *ngIf="sidebarOpen"
+    [sidebarOpen]="sidebarOpen" 
+    (sidebarOpenChange)="sidebarOpen = $event">
+  </app-sidebar>
+  
+
+  <button 
+    class="open-btn" 
+    *ngIf="!sidebarOpen" 
+    (click)="sidebarOpen = true">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

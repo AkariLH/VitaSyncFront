@@ -1,0 +1,71 @@
+
+<nav [class.closed]="!sidebarOpen" class="sidebar">
+    <button class="close-btn" *ngIf="sidebarOpen" (click)="closeSidebar()">
+      <i class="fa-solid fa-bars"></i>
+    </button>    
+    <div class="logo">
+      <img src="/logo.png" alt="VitaSync"  class="logo-img">
+    </div>
+    <ul>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <i class="fa-solid fa-table-cells-large icon-vitasync"></i>
+          Panel Principal
+        </a>
+      </li>
+      <li>
+        <a routerLink="/tasks" routerLinkActive="active">
+          <i class="fa-solid fa-list-check icon-vitasync"></i>
+          Tareas
+        </a>
+      </li>
+      <li>
+        <a routerLink="/planificacion" routerLinkActive="active">
+          <i class="fa-regular fa-calendar icon-vitasync"></i>
+          Planificación
+        </a>
+      </li>
+      <li>
+        <a routerLink="/rutinas" routerLinkActive="active">
+          <i class="fa-solid fa-repeat icon-vitasync"></i>
+          Rutinas
+        </a>
+      </li>
+      <li>
+        <a routerLink="/habitos" routerLinkActive="active">
+          <i class="fa-regular fa-circle-dot icon-vitasync"></i>
+          Hábitos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/listas-compras" routerLinkActive="active">
+          <i class="fa-solid fa-cart-shopping icon-vitasync"></i>
+          Listas de Compras
+        </a>
+      </li>
+      <li>
+        <a routerLink="/emocional" routerLinkActive="active">
+          <i class="fa-regular fa-face-smile icon-vitasync"></i>
+          R. Emocional
+        </a>
+      </li>
+      <li>
+        <a routerLink="/quehaceres" routerLinkActive="active">
+          <i class="fa-solid fa-pen-nib icon-vitasync"></i>
+          Quehaceres
+        </a>
+      </li>
+      <li>
+        <a routerLink="/finanzas" routerLinkActive="active">
+          <i class="fa-solid fa-dollar-sign icon-vitasync"></i>
+          Finanzas
+        </a>
+      </li>
+      <li>
+        <a routerLink="/configuracion" routerLinkActive="active">
+          <i class="fa-solid fa-gear icon-vitasync"></i>
+          Configuración
+        </a>
+      </li>
+    </ul>
+  </nav>
