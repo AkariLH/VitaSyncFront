@@ -15,7 +15,16 @@ export class CategoryModal implements OnInit {
   @Output() onUpdate = new EventEmitter<any>();
 
   categorias: Categoria[] = [];
-  nuevaCategoria: Categoria = { nombreCategoria: '', colorCategoria: '#000000' };
+
+  nuevaCategoria: Categoria = {
+    nombreCategoria: '',
+    colorCategoria: '#4CAF50'
+  };
+
+  coloresPredefinidos: string[] = [
+    '#4CAF50', '#F44336', '#2196F3', '#FF9800',
+    '#9C27B0', '#3F51B5', '#00BCD4', '#E91E63'
+  ];
 
   constructor(private categoryService: CategoryService) {}
 
@@ -23,27 +32,33 @@ export class CategoryModal implements OnInit {
     this.loadCategorias();
   }
 
-  loadCategorias() {
-    this.categoryService.getAll().subscribe(cats => this.categorias = cats);
+  loadCategorias(): void {
+    this.categoryService.getAll().subscribe({
+      next: (cats) => (this.categorias = cats),
+      error: () => alert('Error al cargar categorías')
+    });
   }
 
-  add() {
-    if (this.nuevaCategoria.nombreCategoria.trim()) {
-      if (this.nuevaCategoria.id) {
-        // Actualizar categoría existente
-        this.categoryService.update(this.nuevaCategoria).subscribe(cat => {
-          const idx = this.categorias.findIndex(c => c.id === cat.id);
-          if (idx > -1) this.categorias[idx] = cat;
-          this.nuevaCategoria = { nombreCategoria: '', colorCategoria: '#000000' };
-        });
-      } else {
-        // Crear nueva categoría
-        this.categoryService.create(this.nuevaCategoria).subscribe(cat => {
-          this.categorias.push(cat);
-          this.nuevaCategoria = { nombreCategoria: '', colorCategoria: '#000000' };
-        });
-      }
+  seleccionarColor(color: string): void {
+    this.nuevaCategoria.colorCategoria = color;
+  }
+
+  add(): void {
+    if (!this.nuevaCategoria.nombreCategoria?.trim()) {
+      alert('Debes escribir un nombre para la categoría');
+      return;
     }
+
+    this.categoryService.create(this.nuevaCategoria).subscribe({
+      next: (cat) => {
+        this.categorias.push(cat);
+        this.nuevaCategoria = {
+          nombreCategoria: '',
+          colorCategoria: '#4CAF50'
+        };
+      },
+      error: () => alert('Error al crear la categoría')
+    });
   }
 
   delete(cat: Categoria) {
