@@ -22,7 +22,7 @@ export class Tasks implements OnInit {
   modalVisible = false;
   categoryModalVisible = false;
   showCreateTaskModal = false;
-  tasks: any[] = [];
+  tasks: Task[] = [];
   user = JSON.parse(localStorage.getItem('user') || '{}');
   usuarioId = this.user.id || 0;
   constructor(private TaskService: TaskService, private router: Router, private http: HttpClient) {}
@@ -39,9 +39,10 @@ export class Tasks implements OnInit {
       }
   }
 
-  loadTasks() {
-    this.TaskService.getAll(this.usuarioId).subscribe(tasks => {
-      this.tasks = Array.isArray(tasks) ? tasks : [];
+  loadTasks(): void {
+    this.TaskService.getAll(this.usuarioId).subscribe({
+      next: (tasks) => this.tasks = tasks,
+      error: () => alert('Error al cargar las tareas.')
     });
   }
 
