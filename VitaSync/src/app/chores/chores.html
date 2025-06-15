@@ -1,1 +1,63 @@
-<p>chores works!</p>
+<div class="dashboard-container">
+  <button *ngIf="!sidebarOpen" class="open-btn" (click)="sidebarOpen = true">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <app-sidebar [sidebarOpen]="sidebarOpen" (sidebarOpenChange)="sidebarOpen = $event"></app-sidebar>
+
+  <div class="main-content">
+    <div class="chores-page">
+      <div class="header-row">
+        <div class="header-title-icon">
+          <i class="fa-solid fa-pen-nib main-color"></i>
+          <div>
+            <h1 class="title">Quehaceres del Hogar</h1>
+            <p class="subtitle">Organiza y registra tus tareas domésticas.</p>
+          </div>
+        </div>
+        <button class="btn-primary" (click)="agregarQuehacer()">+ Añadir Quehacer</button>
+      </div>
+
+      <h3 class="section-title">Quehaceres Activos</h3>
+      <div class="chores-grid">
+        <div class="chore-card" *ngFor="let q of activeQuehaceres">
+          <h2>{{ q.nombre }}</h2>
+          <p>{{ q.descripcion }}</p>
+          <p class="frecuencia">📅 Frecuencia: {{ q.frecuencia }} ({{ q.dias.join(', ') }})</p>
+
+          <button 
+            class="btn-mark" 
+            [disabled]="q.hechoHoy"
+            (click)="marcarHecho(q)">
+            <i class="fa-regular" [ngClass]="q.hechoHoy ? 'fa-circle-check' : 'fa-circle'"></i>
+            {{ q.hechoHoy ? 'Hecho Hoy' : 'Marcar Hecho Hoy' }}
+          </button>
+
+          <div class="estado-label verde" *ngIf="q.hechoHoy">Completado Hoy</div>
+          <div class="estado-label gris" *ngIf="!q.hechoHoy && q.activo">Activo</div>
+
+          <div class="chore-actions">
+            <button><i class="fa fa-pen"></i></button>
+            <button><i class="fa fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="section-title">Quehaceres Inactivos</h3>
+      <div class="chores-grid">
+        <div class="chore-card" *ngFor="let q of inactiveQuehaceres">
+          <h2>{{ q.nombre }}</h2>
+          <p>{{ q.descripcion }}</p>
+          <p class="frecuencia">📅 Frecuencia: {{ q.frecuencia }}</p>
+
+          <div class="estado-label gris">Inactivo</div>
+
+          <div class="chore-actions">
+            <button><i class="fa fa-pen"></i></button>
+            <button><i class="fa fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
