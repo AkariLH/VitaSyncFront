@@ -9,6 +9,7 @@ import { loginGuard } from './auth/login/login.guard';
 import { Sidebar } from './sidebar/sidebar';
 import { Planning } from './planning/planning/planning';
 import { Habits } from './habits/habits';
+import { ShoppingList } from './shopping-list/shopping-list';
 
 export const routes: Routes = [
   {
@@ -28,5 +29,6 @@ export const routes: Routes = [
   {path: 'dashboard', loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard), canActivate: [authGuard] },
   {path: 'sidebar', component: Sidebar},
   {path: 'planificacion', component: Planning},
-  {path: 'habitos', component: Habits}
+  {path: 'habitos', component: Habits},
+  {path: 'listas-compras', component: ShoppingList}
 ];

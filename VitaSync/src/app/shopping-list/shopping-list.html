@@ -1,1 +1,57 @@
-<p>shopping-list works!</p>
+<div class="dashboard-container">
+  <button 
+    class="open-btn" 
+    *ngIf="!sidebarOpen" 
+    (click)="sidebarOpen = true">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <app-sidebar 
+    [sidebarOpen]="sidebarOpen" 
+    (sidebarOpenChange)="sidebarOpen = $event">
+  </app-sidebar>
+
+  <div class="main-content">
+    <div class="shopping-page">
+      <div class="header-row">
+        <div class="header-title-icon">
+          <i class="fa-solid fa-cart-shopping main-color routine-icon"></i>
+          <div>
+            <h1 class="title">Listas de Compras</h1>
+            <p class="subtitle">Organiza tus compras de manera eficiente.</p>
+          </div>
+        </div>
+        <button class="btn-primary">
+          <i class="fa-solid fa-plus"></i> Crear Nueva Lista
+        </button>
+      </div>
+
+      <div class="shopping-lists-grid">
+        <div class="shopping-card" *ngFor="let lista of listas">
+          <h2>{{ lista.nombre }}</h2>
+          <p>{{ lista.descripcion }}</p>
+
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="(lista.completados / lista.items.length) * 100"></div>
+          </div>
+          <small class="progress-text">{{ lista.completados }} de {{ lista.items.length }}</small>
+
+          <ul class="shopping-items">
+            <li *ngFor="let item of lista.items">
+              <input type="checkbox" [checked]="item.completado" />
+              <span [class.done]="item.completado">{{ item.nombre }}</span>
+              <span class="tag" [class.alta]="item.prioridad === 'alta'"
+                                [class.media]="item.prioridad === 'media'"
+                                [class.baja]="item.prioridad === 'baja'">{{ item.prioridad }}</span>
+            </li>
+          </ul>
+
+          <div class="shopping-actions">
+            <button><i class="fa-solid fa-list-check"></i> Ver / Editar</button>
+            <button class="danger"><i class="fa fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

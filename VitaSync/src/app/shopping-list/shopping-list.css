@@ -1,0 +1,128 @@
+.shopping-page {
+  min-height: 100vh;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.8rem;
+}
+
+.header-title-icon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shopping-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.item-card {
+  background: white;
+  padding: 1rem;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.item-checkbox span {
+  font-size: 14px;
+  color: var(--color-text);
+  transition: color 0.2s ease;
+}
+
+.item-checkbox span.checked {
+  text-decoration: line-through;
+  color: var(--color-subtitule);
+}
+
+.tag {
+  background: var(--color-muted);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.shopping-lists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.shopping-card {
+  background: white;
+  padding: 1.4rem;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.shopping-items {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+
+.shopping-items li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.shopping-items span {
+  font-size: 14px;
+}
+
+.shopping-items span.done {
+  text-decoration: line-through;
+  color: var(--color-subtitule);
+}
+
+.tag {
+  font-size: 11px;
+  border-radius: 20px;
+  padding: 4px 10px;
+  margin-left: auto;
+  background: var(--color-muted);
+}
+
+.tag.alta { background: #ef5350; color: white; }
+.tag.media { background: #26a69a; color: white; }
+.tag.baja { background: #ffee58; color: #222; }
+
+.shopping-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.shopping-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: var(--btn-radius);
+}
+
+.shopping-actions .danger {
+  color: #ef5350;
+}
