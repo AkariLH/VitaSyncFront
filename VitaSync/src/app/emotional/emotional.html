@@ -1,1 +1,40 @@
-<p>emotional works!</p>
+<div class="dashboard-container">
+  <button 
+    class="open-btn" 
+    *ngIf="!sidebarOpen" 
+    (click)="sidebarOpen = true">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <app-sidebar 
+    [sidebarOpen]="sidebarOpen" 
+    (sidebarOpenChange)="sidebarOpen = $event">
+  </app-sidebar>
+
+  <div class="main-content">
+    <div class="emotional-page">
+      <div class="header-row">
+        <div class="header-title-icon">
+          <i class="fa-regular fa-face-smile main-color routine-icon"></i>
+          <div>
+            <h1 class="title">R. Emocional</h1>
+            <p class="subtitle">Lleva un registro de tus emociones y analiza tus estados de ánimo.</p>
+          </div>
+        </div>
+        <button class="btn-primary" (click)="registrarEmocion()">+ Registrar Emoción</button>
+      </div>
+
+      <div class="emotions-timeline">
+        <div *ngFor="let emo of emociones" class="emotion-entry">
+          <div class="emotion-dot" [style.background]="emo.color"></div>
+          <div class="emotion-details">
+            <strong>{{ emo.emocion }}</strong>
+            <span class="badge">{{ emo.tipo }}</span>
+            <p>{{ emo.fecha }} – {{ emo.hora }}</p>
+            <p>Intensidad: {{ emo.intensidad }}/5</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

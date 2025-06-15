@@ -10,6 +10,7 @@ import { Sidebar } from './sidebar/sidebar';
 import { Planning } from './planning/planning/planning';
 import { Habits } from './habits/habits';
 import { ShoppingList } from './shopping-list/shopping-list';
+import { Emotional } from './emotional/emotional';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,6 @@ export const routes: Routes = [
   {path: 'sidebar', component: Sidebar},
   {path: 'planificacion', component: Planning},
   {path: 'habitos', component: Habits},
-  {path: 'listas-compras', component: ShoppingList}
+  {path: 'listas-compras', component: ShoppingList},
+  {path: 'emocional', component: Emotional}
 ];
