@@ -12,6 +12,7 @@ import { Habits } from './habits/habits';
 import { ShoppingList } from './shopping-list/shopping-list';
 import { Emotional } from './emotional/emotional';
 import { Chores } from './chores/chores';
+import { Finance } from './finance/finance';
 
 export const routes: Routes = [
   {
@@ -34,5 +35,6 @@ export const routes: Routes = [
   {path: 'habitos', component: Habits},
   {path: 'listas-compras', component: ShoppingList},
   {path: 'emocional', component: Emotional},
-  {path: 'quehaceres', component: Chores}
+  {path: 'quehaceres', component: Chores},
+  {path: 'finanzas', component: Finance}
 ];
