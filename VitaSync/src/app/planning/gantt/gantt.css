@@ -1,0 +1,13 @@
+.gantt-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.gantt-bar {
+  background: var(--color-primary);
+  padding: 8px;
+  color: white;
+  border-radius: 6px;
+}

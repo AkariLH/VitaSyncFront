@@ -1,0 +1,20 @@
+.calendar-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.day {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  border-radius: 8px;
+  min-height: 100px;
+}
+
+.evento {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--color-primary);
+}

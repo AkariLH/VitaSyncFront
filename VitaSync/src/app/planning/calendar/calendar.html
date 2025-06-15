@@ -1,0 +1,8 @@
+<h2>Calendario Semanal</h2>
+<p>Visualiza eventos programados.</p>
+<div class="calendar-week">
+  <div class="day" *ngFor="let dia of ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']">
+    <strong>{{ dia }}</strong>
+    <div class="evento" *ngIf="dia === 'Dom'">10:00 Reunión de Equipo</div>
+  </div>
+</div>

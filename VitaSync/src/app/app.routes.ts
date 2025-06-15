@@ -7,6 +7,7 @@ import { Dashboard } from './dashboard/dashboard';
 import { authGuard } from './auth/auth.guard';
 import { loginGuard } from './auth/login/login.guard';
 import { Sidebar } from './sidebar/sidebar';
+import { Planning } from './planning/planning/planning';
 
 export const routes: Routes = [
   {
@@ -24,5 +25,6 @@ export const routes: Routes = [
   {path: 'categorias', component: CategoryModal},
   {path: 'rutinas', component: Routines},
   {path: 'dashboard', loadComponent: () => import('./dashboard/dashboard').then(m => m.Dashboard), canActivate: [authGuard] },
-  {path: 'sidebar', component: Sidebar}
+  {path: 'sidebar', component: Sidebar},
+  {path: 'planificacion', component: Planning}
 ];

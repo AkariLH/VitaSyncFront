@@ -1,0 +1,21 @@
+<div class="kanban-board">
+  <div class="filters">
+    <input type="text" placeholder="Buscar Tarea">
+    <select><option>Seleccionar encargado</option></select>
+    <select><option>Seleccionar prioridad</option></select>
+    <button>Hoy</button><button>Semana</button><button>Limpiar</button>
+  </div>
+
+  <div class="columns">
+    <div *ngFor="let col of columnas" class="column">
+      <h3>{{ col }} ({{ tareas[col].length }})</h3>
+      <div class="task-card" *ngFor="let tarea of tareas[col]">
+        <strong>{{ tarea.titulo }}</strong>
+        <p>{{ tarea.fecha }}</p>
+        <span class="badge">{{ tarea.categoria }}</span>
+        <span class="badge">{{ tarea.prioridad }}</span>
+      </div>
+      <button class="add-task">+ Añadir Tarea</button>
+    </div>
+  </div>
+</div>
