@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Sidebar } from '../../sidebar/sidebar';
+
 @Component({
   selector: 'app-routines',
   standalone: true,
   templateUrl: './routines.html',
   styleUrls: ['./routines.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, Sidebar]
 })
 export class Routines {
   sidebarOpen = true;

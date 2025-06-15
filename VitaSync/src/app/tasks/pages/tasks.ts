@@ -9,6 +9,11 @@ import { TaskService } from '../services/task';
 import { OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Sidebar } from '../../sidebar/sidebar';
+import { CategoryService, Categoria } from '../services/category';
+
+interface TaskWithCategoria extends Task {
+  categoriaObj?: Categoria;
+}
 
 @Component({
   selector: 'app-task-dashboard',
@@ -22,13 +27,18 @@ export class Tasks implements OnInit {
   modalVisible = false;
   categoryModalVisible = false;
   showCreateTaskModal = false;
-  tasks: Task[] = [];
+  tasks: TaskWithCategoria[] = [];
+  categorias: any[] = [];
   user = JSON.parse(localStorage.getItem('user') || '{}');
   usuarioId = this.user.id || 0;
-  constructor(private TaskService: TaskService, private router: Router, private http: HttpClient) {}
+  constructor(private TaskService: TaskService, private router: Router, private http: HttpClient, private categoryService: CategoryService) {}
 
   ngOnInit() {
     this.loadTasks();
+    this.categoryService.getAll().subscribe(cats => {
+      this.categorias = cats;
+      this.loadTasks();
+    });
   // Borrar el siguiente código si no es necesario solo es para verificar sesión
     const user = localStorage.getItem('user');
       if (user) {
@@ -41,7 +51,12 @@ export class Tasks implements OnInit {
 
   loadTasks(): void {
     this.TaskService.getAll(this.usuarioId).subscribe({
-      next: (tasks) => this.tasks = tasks,
+      next: (tasks) => {
+        this.tasks = tasks.map(task => ({
+          ...task,
+          categoriaObj: this.categorias.find(cat => cat.id === task.categoria)
+        }));
+      },
       error: () => alert('Error al cargar las tareas.')
     });
   }

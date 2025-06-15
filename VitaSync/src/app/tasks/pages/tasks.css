@@ -43,6 +43,11 @@
   cursor: pointer;
 }
 
+.btn-primary:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
 .btn-accent {
   background-color: var(--color-background);
   color: var(--color-text);
@@ -116,6 +121,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  position: relative;
 }
 
 .task-header {
@@ -281,4 +287,21 @@
     gap: 8px;
     padding: 12px 10px;
   }
+}
+
+.categoria-ovalo {
+  display: inline-block;
+  padding: 0.25em 1em;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.9em;
+  z-index: 2;
+}
+
+.esquina-superior-derecha {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  left: auto; /* Asegúrate de que left no esté seteado */
 }

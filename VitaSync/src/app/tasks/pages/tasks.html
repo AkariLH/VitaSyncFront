@@ -45,19 +45,25 @@
         <div class="filter-box">
           <label for="categoryFilter"><i class="fa-solid fa-filter"></i> Filtrar por Categoría:</label>
           <select id="categoryFilter">
-            <option>Todas las Categorías</option>
+            <option [ngValue]="null" disabled selected>Selecciona una categoría</option>
+            <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombreCategoria}}</option>
           </select>
         </div>
       </div>
 
       <div class="task-grid">
         <div class="task-card" *ngFor="let task of tasks">
+          <div 
+            class="categoria-ovalo esquina-superior-derecha"
+            *ngIf="task.categoriaObj"
+            [ngStyle]="{'background-color': task.categoriaObj.colorCategoria}">
+            {{ task.categoriaObj.nombreCategoria }}
+          </div>
           <div class="task-header">
             <div>
               <h3>{{ task.nombreTarea }}</h3>
               <p class="description">{{ task.descripcionTarea }}</p>
             </div>
-            <span [ngClass]="['category', task.categoria ? (task.categoria + '').toLowerCase() : '']">{{ task.categoria }}</span>
           </div>
 
           <div class="task-info">
