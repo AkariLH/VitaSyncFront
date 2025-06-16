@@ -13,6 +13,7 @@ import { ShoppingList } from './shopping-list/shopping-list';
 import { Emotional } from './emotional/emotional';
 import { Chores } from './chores/chores';
 import { Finance } from './finance/finance';
+import { Settings } from './settings/settings';
 
 export const routes: Routes = [
   {
@@ -36,5 +37,6 @@ export const routes: Routes = [
   {path: 'listas-compras', component: ShoppingList},
   {path: 'emocional', component: Emotional},
   {path: 'quehaceres', component: Chores},
-  {path: 'finanzas', component: Finance}
+  {path: 'finanzas', component: Finance},
+  {path: 'configuracion', component: Settings}
 ];

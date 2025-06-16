@@ -1,0 +1,47 @@
+<div class="dashboard-container">
+  <button *ngIf="!sidebarOpen" class="open-btn" (click)="sidebarOpen = true">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <app-sidebar 
+    [sidebarOpen]="sidebarOpen" 
+    (sidebarOpenChange)="sidebarOpen = $event">
+  </app-sidebar>
+
+  <div class="main-content">
+    <div class="settings-page">
+      <div class="header-row">
+        <div class="header-title-icon">
+          <i class="fa-solid fa-gear main-color"></i>
+          <div>
+            <h1 class="title">Configuración</h1>
+            <p class="subtitle">Personaliza tu experiencia en la aplicación.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Datos de la Cuenta</h3>
+        <label>
+          Nombre:
+          <input type="text" [(ngModel)]="usuario.nombre">
+        </label>
+        <label>
+          Correo Electrónico:
+          <input type="email" [(ngModel)]="usuario.correo">
+        </label>
+        <button class="btn-primary" (click)="actualizarDatos()">Guardar Cambios</button>
+      </div>
+
+      <div class="section">
+        <h3>Preferencias de Tema</h3>
+        <label>
+          <input type="radio" name="tema" value="claro" [(ngModel)]="usuario.tema"> Claro
+        </label>
+        <label>
+          <input type="radio" name="tema" value="oscuro" [(ngModel)]="usuario.tema"> Oscuro
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
