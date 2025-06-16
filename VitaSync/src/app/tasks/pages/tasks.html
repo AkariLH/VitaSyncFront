@@ -22,15 +22,29 @@
           </div>
         </div>
         <div class="buttons">
-          <button class="btn-primary" (click)="openModal()">
+          <button class="btn-primary" (click)="abrirModalNuevaTarea()">
             <i class="fa-solid fa-plus"></i> Añadir Nueva Tarea
           </button>
           <app-task-modal
-            *ngIf="modalVisible"
-            (onClose)="closeModal()"
-            (onCreate)="onTaskCreated($event)"
-            [usuarioId]="user.id">
+            *ngIf="showCreateTaskModal"
+            [usuarioId]="user.id"
+            [modoEdicion]="false"
+            [tareaAEditar]="null"
+            [tareas]="tasks"
+            (onClose)="cerrarModalNuevaTarea()"
+            (onCreate)="onTaskCreated($event)">
           </app-task-modal>
+
+          <app-task-modal
+            *ngIf="showEditTaskModal"
+            [usuarioId]="user.id"
+            [modoEdicion]="true"
+            [tareaAEditar]="tareaEditando"
+            [tareas]="tasks"
+            (onClose)="cerrarModalEditar()"
+            (onCreate)="onTaskEdited($event)">
+          </app-task-modal>
+
           <button class="btn-accent" (click)="openCategoryModal()">
             <i class="fa-solid fa-layer-group"></i> Gestionar Categorías
           </button>
@@ -41,18 +55,44 @@
         </div>
       </div>
 
-      <div class="toolbar">
-        <div class="filter-box">
-          <label for="categoryFilter"><i class="fa-solid fa-filter"></i> Filtrar por Categoría:</label>
-          <select id="categoryFilter">
-            <option [ngValue]="null" disabled selected>Selecciona una categoría</option>
-            <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombreCategoria}}</option>
-          </select>
-        </div>
-      </div>
+  <div class="toolbar filters-container">
+    <span class="filter-icon ">
+      <i class="fa-solid fa-filter filter-outline"></i>
+    </span>
+    <div class="filter-box">
+      <label for="categoryFilter"> Categoría:</label>
+      <select id="categoryFilter" [(ngModel)]="filtroCategoria" (change)="aplicarFiltros()">
+        <option [ngValue]="null">Todas</option>
+        <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombreCategoria}}</option>
+      </select>
+    </div>
+    <div class="filter-box">
+      <label for="estadoFilter">Estado:</label>
+      <select id="estadoFilter" [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
+        <option [ngValue]="null">Todos</option>
+        <option value="Pendiente">Pendiente</option>
+        <option value="En Progreso">En Progreso</option>
+        <option value="Completado">Completado</option>
+      </select>
+    </div>
+    <div class="filter-box">
+      <label for="prioridadFilter">Prioridad:</label>
+      <select id="prioridadFilter" [(ngModel)]="filtroPrioridad" (change)="aplicarFiltros()">
+        <option [ngValue]="null">Todas</option>
+        <option value="alta">Alta</option>
+        <option value="media">Media</option>
+        <option value="baja">Baja</option>
+      </select>
+    </div>
+    <div class="filter-box">
+      <label for="searchFilter">Buscar:</label>
+      <input id="searchFilter" type="text" [(ngModel)]="filtroBusqueda" (input)="aplicarFiltros()" placeholder="Nombre o descripción...">
+    </div>
+    <button class="btn-reset" (click)="limpiarFiltros()">Limpiar Filtros</button>
+  </div>
 
       <div class="task-grid">
-        <div class="task-card" *ngFor="let task of tasks">
+        <div class="task-card" *ngFor="let task of filteredTasks">
           <div 
             class="categoria-ovalo esquina-superior-derecha"
             *ngIf="task.categoriaObj"
@@ -68,10 +108,11 @@
 
           <div class="task-info">
             <span class="badge estado-badge">
-              <select [(ngModel)]="task.estado" class="estado-select">
+              <select [(ngModel)]="task.estado" class="estado-select" (change)="actualizarEstadoTarea(task)">
                 <option value="Pendiente">Pendiente</option>
-                <option value="En Progreso">En Progreso</option>
-                <option value="Completado">Completado</option>
+                <option value="En_progreso">En Progreso</option>
+                <option value="Hecho">Completado</option>
+                <option value="Cancelado">Cancelado</option>
               </select>
             </span>
             <span class="badge">{{ task.dificultado }}</span>
@@ -84,8 +125,10 @@
           </div>
 
           <div class="actions">
-            <button class="edit-btn" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
-            <button class="delete-btn" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+            <button class="edit-btn" title="Editar" (click)="abrirModalEditar(task)">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button class="delete-btn" title="Eliminar" (click)="eliminarTarea(task)"><i class="fa-solid fa-trash"></i></button>
           </div>
         </div>
       </div>

@@ -1,3 +1,17 @@
+main {
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35); /* Cambia 0.35 por el nivel de opacidad que prefieras */
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
 .task-dashboard {
   background: #f5f5f5;
   padding: 30px;
@@ -111,7 +125,7 @@
 /* Tarjetas */
 .task-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -149,12 +163,6 @@
   color: white;
   font-size: 12px;
 }
-
-.category.hogar    { background-color: #d32f2f; }
-.category.trabajo  { background-color: #388e3c; }
-.category.salud    { background-color: #ffa000; }
-.category.personal { background-color: #1976d2; }
-.category.estudio  { background-color: #7b1fa2; }
 
 .description {
   color: var(--color-subtitule);
@@ -235,6 +243,92 @@
   margin: 10px 0;
 }
 
+/* 🎯 Contenedor general de filtros */
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.2rem 2rem 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 2.2rem;
+  align-items: center;
+  border: 1px solid #ececec;
+}
+
+/* 📦 Estilos de cada grupo de filtro */
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  min-width: 170px;
+  flex: 1 1 170px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.filter-box label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #4db6ac;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-box select,
+.filter-box input {
+  height: 36px;
+  border-radius: 999px;
+  border: 1.5px solid #e0e0e0;
+  padding: 0 16px;
+  font-size: 15px;
+  background: #fafbfc;
+  color: #333;
+  transition: border 0.2s, box-shadow 0.2s;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(77,182,172,0.03);
+}
+
+.filter-box select:focus,
+.filter-box input:focus {
+  border-color: #4db6ac;
+  box-shadow: 0 0 0 2px rgba(77,182,172,0.10);
+}
+
+.filter-box select:hover,
+.filter-box input:hover {
+  border-color: #b2dfdb;
+}
+
+.filter-box input::placeholder {
+  color: #bdbdbd;
+  font-style: italic;
+}
+
+/* 🎯 Botón "Limpiar filtros" */
+.btn-reset {
+  background: linear-gradient(90deg, #4db6ac 0%, #6c1a8a 100%);
+  color: white;
+  padding: 10px 22px;
+  font-size: 15px;
+  border: none;
+  border-radius: 999px;
+  margin-top: 0;
+  margin-left: 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(108,26,138,0.07);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn-reset:hover {
+  background: linear-gradient(90deg, #6c1a8a 0%, #4db6ac 100%);
+  box-shadow: 0 4px 12px rgba(77,182,172,0.13);
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .task-grid {
@@ -244,6 +338,17 @@
 
   .task-card {
     padding: 14px;
+  }
+
+  .filters-container {
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1rem 0.7rem;
+  }
+  .btn-reset {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
   }
 }
 
@@ -289,6 +394,26 @@
   }
 }
 
+/* Filtros: etiqueta y control en la misma línea */
+.filter-box {
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0.5em;
+  display: flex;
+  min-width: 170px;
+  flex: 1 1 170px;
+  margin-bottom: 0;
+}
+
+.filter-box label {
+  margin-bottom: 0 !important;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4db6ac;
+  letter-spacing: 0.02em;
+}
+
 .categoria-ovalo {
   display: inline-block;
   padding: 0.25em 1em;
@@ -304,4 +429,21 @@
   top: 1em;
   right: 1em;
   left: auto; /* Asegúrate de que left no esté seteado */
+}
+
+.filter-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  color: #4db6ac;
+  margin-right: 1.2rem;
+  margin-left: 0.2rem;
+  height: 100%;
+}
+
+.filter-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px #4db6ac; /* Ajusta el color y grosor */
+  text-stroke: 2px #4db6ac;
 }

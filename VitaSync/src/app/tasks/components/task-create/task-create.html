@@ -2,11 +2,11 @@
 
 <div class="modal">
   <div class="modal-header">
-    <h2>Añadir Nueva Tarea</h2>
+    <h2>{{ modoEdicion ? 'Editar Tarea' : 'Añadir Nueva Tarea' }}</h2>
     <button class="close-btn" (click)="closeModal()">×</button>
   </div>
 
-  <p class="modal-subtitle">Completa los detalles para tu nueva tarea.</p>
+  <p class="modal-subtitle">{{ modoEdicion ? 'Modifica los detalles de la tarea.' : 'Completa los detalles para tu nueva tarea.' }}</p>
 
   <form (ngSubmit)="createTask()" #taskForm="ngForm">
     <div class="form-group">
@@ -87,7 +87,9 @@
     
 
     <div class="form-actions">
-      <button type="submit" class="btn-primary">Crear Tarea</button>
+      <button type="submit" class="btn-primary">
+        {{ modoEdicion ? 'Guardar Cambios' : 'Crear Tarea' }}
+      </button>
     </div>
   </form>
 </div>

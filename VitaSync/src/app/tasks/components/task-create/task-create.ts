@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CategoryService, Categoria } from '../../services/category'; // Asegúrate de que la ruta sea correcta
@@ -12,7 +12,7 @@ import { TaskService, Task } from '../../services/task';
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
-export class TaskCreate implements OnInit {
+export class TaskCreate implements OnInit, OnChanges {
   @Output() onClose = new EventEmitter<void>();
   @Output() onCreate = new EventEmitter<any>();
 
@@ -21,6 +21,9 @@ export class TaskCreate implements OnInit {
 
   // Recibe las tareas y categorías desde el componente padre
   @Input() tareas: any[] = [];
+
+  @Input() modoEdicion: boolean = false; // Indica si es modo edición o creación
+  @Input() tareaAEditar: any = null; // Tarea a editar, si existe
 
   categorias: any[] = []; // Para almacenar las categorías recibidas
   constructor(
@@ -31,9 +34,20 @@ export class TaskCreate implements OnInit {
 
   ngOnInit() {
     this.categoryService.getAll().subscribe(cats => this.categorias = cats);
+
+    if(this.modoEdicion && this.tareaAEditar) {
+      this.task= {...this.tareaAEditar}
+    }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['tareaAEditar'] && this.modoEdicion && this.tareaAEditar) {
+      this.task = { ...this.tareaAEditar };
+    }
+  }
+  
   task: {
+    id?: number;
     nombreTarea: string;
     descripcionTarea: string;
     fechaCreacionTarea: string;
@@ -67,27 +81,44 @@ export class TaskCreate implements OnInit {
   
   createTask() {
     const nowIso = new Date().toISOString();
-    this.task.fechaCreacionTarea = nowIso;
     this.task.fechaActualizacion = nowIso;
     this.task.usuarioId = this.usuarioId;
     this.task.subtareaDe = null;
     this.task.fechaFinTarea = null;
-    this.task.usuarioId = this.usuarioId;
     if (!this.task.fechaInicioTarea) {
       this.task.fechaInicioTarea = null;
     }
 
-    console.log(this.task);
-    this.taskService.create(this.task).subscribe({
-      next: (res) => {
-        this.onCreate.emit(res);
-        this.closeModal();
-      },
-      error: () => {
-        alert('Error al crear la tarea');
-      }
-    });
+    if (this.modoEdicion && this.tareaAEditar && this.tareaAEditar.id) {
+      console.log("Enviando tarea a editar:", this.tareaAEditar);
+      const tareaActualizada = {
+        ...this.task,
+        id: this.tareaAEditar.id, 
+      };
+
+      this.taskService.update(this.tareaAEditar.id, tareaActualizada).subscribe({
+        next: (updatedTask) => {
+          this.onCreate.emit(updatedTask); 
+          this.closeModal();
+        },
+        error: err => {
+          console.error('Error al actualizar tarea:', err);
+        }
+      });
+    } else {
+      this.task.fechaCreacionTarea = nowIso;
+      this.taskService.create(this.task).subscribe({
+        next: () => {
+          this.onCreate.emit();
+          this.closeModal();
+        },
+        error: err => {
+          console.error('Error al crear tarea:', err);
+        }
+      });
+    }
   }
+      
 
   closeModal() {
     this.onClose.emit();
