@@ -22,15 +22,17 @@
       </select>
     </label>
 
-    <label>
-      Fecha:
-      <select [(ngModel)]="filtroFecha" (change)="onFiltroChange()">
-        <option value="">Todas</option>
-        <option *ngFor="let tarea of tareas" [value]="tarea.fechaEntregaTarea">
-          {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}
-        </option>
-      </select>
-    </label>
+    <div class="filtro-fechas">
+      <label>
+        Desde:
+        <input type="date" [(ngModel)]="filtroFechaDesde" (change)="onFiltroChange()" />
+      </label>
+      <span class="filtro-fechas-separador">—</span>
+      <label>
+        Hasta:
+        <input type="date" [(ngModel)]="filtroFechaHasta" (change)="onFiltroChange()" />
+      </label>
+    </div>
 
     <button class="btn-reset" (click)="limpiarFiltros()">Limpiar Filtros</button>
   </div>
@@ -54,16 +56,18 @@
         [cdkDragData]="tarea"
       >
         <div class="card-body">
-          <div
-            class="categoria-label"
-            *ngIf="tarea.categoriaObj"
-            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
-          >
+          <div class="categoria-label"
+              *ngIf="tarea.categoriaObj"
+              [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }">
             {{ tarea.categoriaObj.nombreCategoria }}
           </div>
-          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <div class="card-header-row">
+            <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          </div>
           <p class="card-desc">{{ tarea.descripcionTarea }}</p>
-          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <span class="card-priority">
+            Prioridad: {{ tarea.prioridad | titlecase }}
+          </span>
           <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
         </div>
       </div>
@@ -86,16 +90,18 @@
         [cdkDragData]="tarea"
       >
         <div class="card-body">
-          <div
-            class="categoria-label"
-            *ngIf="tarea.categoriaObj"
-            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
-          >
+          <div class="categoria-label"
+              *ngIf="tarea.categoriaObj"
+              [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }">
             {{ tarea.categoriaObj.nombreCategoria }}
           </div>
-          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <div class="card-header-row">
+            <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          </div>
           <p class="card-desc">{{ tarea.descripcionTarea }}</p>
-          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <span class="card-priority">
+            Prioridad: {{ tarea.prioridad | titlecase }}
+          </span>
           <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
         </div>
       </div>
@@ -118,16 +124,18 @@
         [cdkDragData]="tarea"
       >
         <div class="card-body">
-          <div
-            class="categoria-label"
-            *ngIf="tarea.categoriaObj"
-            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
-          >
+          <div class="categoria-label"
+              *ngIf="tarea.categoriaObj"
+              [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }">
             {{ tarea.categoriaObj.nombreCategoria }}
           </div>
-          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <div class="card-header-row">
+            <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          </div>
           <p class="card-desc">{{ tarea.descripcionTarea }}</p>
-          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <span class="card-priority">
+            Prioridad: {{ tarea.prioridad | titlecase }}
+          </span>
           <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
         </div>
       </div>
@@ -150,16 +158,18 @@
         [cdkDragData]="tarea"
       >
         <div class="card-body">
-          <div
-            class="categoria-label"
-            *ngIf="tarea.categoriaObj"
-            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
-          >
+          <div class="categoria-label"
+              *ngIf="tarea.categoriaObj"
+              [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }">
             {{ tarea.categoriaObj.nombreCategoria }}
           </div>
-          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <div class="card-header-row">
+            <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          </div>
           <p class="card-desc">{{ tarea.descripcionTarea }}</p>
-          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <span class="card-priority">
+            Prioridad: {{ tarea.prioridad | titlecase }}
+          </span>
           <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
         </div>
       </div>

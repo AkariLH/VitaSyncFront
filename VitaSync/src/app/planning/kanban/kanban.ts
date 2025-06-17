@@ -26,6 +26,9 @@ export class Kanban implements OnInit {
   filtroPrioridad: string = '';
   filtroFecha: string = '';
 
+  filtroFechaDesde: string = '';
+  filtroFechaHasta: string = '';
+
   user = JSON.parse(localStorage.getItem('user') || '{}');
   usuarioId = this.user.id || 0;
 
@@ -70,11 +73,23 @@ export class Kanban implements OnInit {
       const coincideEstado = t.estado.toLowerCase() === estado;
       const coincideCategoria = !this.filtroCategoria || t.categoria === this.filtroCategoria;
       const coincidePrioridad = !this.filtroPrioridad || t.prioridad === this.filtroPrioridad;
+
+      // Filtro por fecha exacta (opcional, puedes quitarlo si solo quieres rango)
       const coincideFecha =
         !this.filtroFecha ||
         (this.filtroFecha === 'hoy' &&
           t.fechaEntregaTarea?.startsWith(new Date().toISOString().split('T')[0]));
-      return coincideEstado && coincideCategoria && coincidePrioridad && coincideFecha;
+
+      // Filtro por rango de fechas
+      let coincideRango = true;
+      if (this.filtroFechaDesde) {
+        coincideRango = coincideRango && !!t.fechaEntregaTarea && t.fechaEntregaTarea >= this.filtroFechaDesde;
+      }
+      if (this.filtroFechaHasta) {
+        coincideRango = coincideRango && !!t.fechaEntregaTarea && t.fechaEntregaTarea <= this.filtroFechaHasta;
+      }
+
+      return coincideEstado && coincideCategoria && coincidePrioridad && coincideFecha && coincideRango;
     });
   }
 
@@ -86,6 +101,8 @@ export class Kanban implements OnInit {
     this.filtroCategoria = null;
     this.filtroPrioridad = '';
     this.filtroFecha = '';
+    this.filtroFechaDesde = '';
+    this.filtroFechaHasta = '';
   }
 
   onDrop(event: CdkDragDrop<TaskWithCategoria[]>, nuevoEstado: string): void {

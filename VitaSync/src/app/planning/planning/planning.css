@@ -70,3 +70,50 @@
   margin-right: 0.3rem; /* Menor separación */
   align-self: center;
 }
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-primary {
+  background: var(--color-primary,);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7rem 1.6rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background: var(--color-accent);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.btn-outline {
+  background: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 6px;
+  padding: 0.7rem 1.6rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-outline:hover, .btn-outline:focus {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}

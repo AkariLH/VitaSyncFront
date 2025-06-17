@@ -25,6 +25,8 @@ export class TaskCreate implements OnInit, OnChanges {
   @Input() modoEdicion: boolean = false; // Indica si es modo edición o creación
   @Input() tareaAEditar: any = null; // Tarea a editar, si existe
 
+  @Output() close = new EventEmitter<void>();
+  
   categorias: any[] = []; // Para almacenar las categorías recibidas
   constructor(
     private http: HttpClient,

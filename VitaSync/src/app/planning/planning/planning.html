@@ -30,6 +30,10 @@
             <i class="fa-regular fa-calendar-plus"></i> Registrar Evento
           </button>
         </div>
+        <app-task-modal 
+          *ngIf="showCreateTaskModal"
+          (onClose)="cerrarModalTarea()">
+        </app-task-modal>
       </div>
 
       <!-- Tabs o secciones -->
