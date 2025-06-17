@@ -1,21 +1,169 @@
-<div class="kanban-board">
-  <div class="filters">
-    <input type="text" placeholder="Buscar Tarea">
-    <select><option>Seleccionar encargado</option></select>
-    <select><option>Seleccionar prioridad</option></select>
-    <button>Hoy</button><button>Semana</button><button>Limpiar</button>
+<div class="kanban-container">
+  <h2 class="kanban-title">Tablero Kanban</h2>
+
+  <div class="kanban-filtros">
+    <label>
+      Categoría:
+      <select [(ngModel)]="filtroCategoria" (change)="onFiltroChange()">
+        <option [ngValue]="null">Todas</option>
+        <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+          {{ cat.nombreCategoria }}
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Prioridad:
+      <select [(ngModel)]="filtroPrioridad" (change)="onFiltroChange()">
+        <option value="">Todas</option>
+        <option value="alta">Alta</option>
+        <option value="media">Media</option>
+        <option value="baja">Baja</option>
+      </select>
+    </label>
+
+    <label>
+      Fecha:
+      <select [(ngModel)]="filtroFecha" (change)="onFiltroChange()">
+        <option value="">Todas</option>
+        <option *ngFor="let tarea of tareas" [value]="tarea.fechaEntregaTarea">
+          {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}
+        </option>
+      </select>
+    </label>
+
+    <button class="btn-reset" (click)="limpiarFiltros()">Limpiar Filtros</button>
   </div>
 
-  <div class="columns">
-    <div *ngFor="let col of columnas" class="column">
-      <h3>{{ col }} ({{ tareas[col].length }})</h3>
-      <div class="task-card" *ngFor="let tarea of tareas[col]">
-        <strong>{{ tarea.titulo }}</strong>
-        <p>{{ tarea.fecha }}</p>
-        <span class="badge">{{ tarea.categoria }}</span>
-        <span class="badge">{{ tarea.prioridad }}</span>
+  <div class="kanban-columns">
+
+    <!-- Columna: Pendiente -->
+    <div
+      class="kanban-column"
+      cdkDropList
+      [id]="'pendiente'"
+      [cdkDropListData]="tareasPorEstado('pendiente')"
+      [cdkDropListConnectedTo]="['en progreso', 'completado', 'cancelado']"
+      (cdkDropListDropped)="onDrop($event, 'pendiente')"
+    >
+      <h3>Pendiente</h3>
+      <div
+        class="kanban-card"
+        *ngFor="let tarea of tareasPorEstado('pendiente')"
+        cdkDrag
+        [cdkDragData]="tarea"
+      >
+        <div class="card-body">
+          <div
+            class="categoria-label"
+            *ngIf="tarea.categoriaObj"
+            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
+          >
+            {{ tarea.categoriaObj.nombreCategoria }}
+          </div>
+          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <p class="card-desc">{{ tarea.descripcionTarea }}</p>
+          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
+        </div>
       </div>
-      <button class="add-task">+ Añadir Tarea</button>
     </div>
+
+    <!-- Columna: En progreso -->
+    <div
+      class="kanban-column"
+      cdkDropList
+      [id]="'en progreso'"
+      [cdkDropListData]="tareasPorEstado('en progreso')"
+      [cdkDropListConnectedTo]="['pendiente', 'completado', 'cancelado']"
+      (cdkDropListDropped)="onDrop($event, 'en progreso')"
+    >
+      <h3>En progreso</h3>
+      <div
+        class="kanban-card"
+        *ngFor="let tarea of tareasPorEstado('en progreso')"
+        cdkDrag
+        [cdkDragData]="tarea"
+      >
+        <div class="card-body">
+          <div
+            class="categoria-label"
+            *ngIf="tarea.categoriaObj"
+            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
+          >
+            {{ tarea.categoriaObj.nombreCategoria }}
+          </div>
+          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <p class="card-desc">{{ tarea.descripcionTarea }}</p>
+          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna: Completado -->
+    <div
+      class="kanban-column"
+      cdkDropList
+      [id]="'completado'"
+      [cdkDropListData]="tareasPorEstado('completado')"
+      [cdkDropListConnectedTo]="['pendiente', 'en progreso', 'cancelado']"
+      (cdkDropListDropped)="onDrop($event, 'completado')"
+    >
+      <h3>Completado</h3>
+      <div
+        class="kanban-card"
+        *ngFor="let tarea of tareasPorEstado('completado')"
+        cdkDrag
+        [cdkDragData]="tarea"
+      >
+        <div class="card-body">
+          <div
+            class="categoria-label"
+            *ngIf="tarea.categoriaObj"
+            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
+          >
+            {{ tarea.categoriaObj.nombreCategoria }}
+          </div>
+          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <p class="card-desc">{{ tarea.descripcionTarea }}</p>
+          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna: Cancelado -->
+    <div
+      class="kanban-column"
+      cdkDropList
+      [id]="'cancelado'"
+      [cdkDropListData]="tareasPorEstado('cancelado')"
+      [cdkDropListConnectedTo]="['pendiente', 'en progreso', 'completado']"
+      (cdkDropListDropped)="onDrop($event, 'cancelado')"
+    >
+      <h3>Cancelado</h3>
+      <div
+        class="kanban-card"
+        *ngFor="let tarea of tareasPorEstado('cancelado')"
+        cdkDrag
+        [cdkDragData]="tarea"
+      >
+        <div class="card-body">
+          <div
+            class="categoria-label"
+            *ngIf="tarea.categoriaObj"
+            [ngStyle]="{ 'background-color': tarea.categoriaObj.colorCategoria }"
+          >
+            {{ tarea.categoriaObj.nombreCategoria }}
+          </div>
+          <h4 class="card-title">{{ tarea.nombreTarea }}</h4>
+          <p class="card-desc">{{ tarea.descripcionTarea }}</p>
+          <p class="card-priority">Prioridad: {{ tarea.prioridad }}</p>
+          <p class="card-date">Entrega: {{ tarea.fechaEntregaTarea | date:'yyyy-MM-dd' }}</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -1,31 +1,136 @@
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Router } from '@angular/router';
+
+import { TaskService, Task } from '../../tasks/services/task';
+import { CategoryService, Categoria } from '../../tasks/services/category';
+
+interface TaskWithCategoria extends Task {
+  categoriaObj?: Categoria;
+}
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './kanban.html',
-  styleUrl: './kanban.css'
+  styleUrl: './kanban.css',
 })
-export class Kanban {
-  columnas: Columna[] = ['Por Hacer', 'En Progreso', 'En Revisión', 'Hecho'];
-  tareas: Record<Columna, { titulo: string; categoria: string; prioridad: string; fecha: string; }[]> = {
-    'Por Hacer': [
-      { titulo: 'Compra de Supermercado', categoria: 'Hogar', prioridad: 'Media', fecha: '30 jul' },
-      { titulo: 'Estudiar React', categoria: 'Estudio', prioridad: 'Alta', fecha: '5 ago' }
-    ],
-    'En Progreso': [
-      { titulo: 'Informe Proyecto Q3', categoria: 'Trabajo', prioridad: 'Alta', fecha: '2 ago' }
-    ],
-    'En Revisión': [
-      { titulo: 'Revisar Propuesta X', categoria: 'Trabajo', prioridad: 'Alta', fecha: '31 jul' }
-    ],
-    'Hecho': [
-      { titulo: 'Sesión de Gimnasio', categoria: 'Salud', prioridad: 'Media', fecha: '28 jul' }
-    ]
-  };
+export class Kanban implements OnInit {
+  tareas: TaskWithCategoria[] = [];
+  categorias: Categoria[] = [];
+
+  filtroCategoria: number | null = null;
+  filtroPrioridad: string = '';
+  filtroFecha: string = '';
+
+  user = JSON.parse(localStorage.getItem('user') || '{}');
+  usuarioId = this.user.id || 0;
+
+  constructor(
+    private taskService: TaskService,
+    private categoryService: CategoryService,
+    private router: Router
+  ) {
+    console.log('Usuario cargado:', this.user); // <-- Agrega esto para depurar
+  }
+
+  ngOnInit(): void {
+    if (!this.usuarioId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.categoryService.getAll().subscribe({
+      next: (cats) => {
+        this.categorias = cats;
+        this.cargarTareas();
+      },
+      error: (err) => console.error('Error al cargar categorías:', err),
+    });
+  }
+
+  cargarTareas(): void {
+    this.taskService.getAll(this.usuarioId).subscribe({
+      next: (tareas) => {
+        console.log('Tareas recibidas:', tareas); // <-- Agrega esto
+        this.tareas = tareas.map(t => ({
+          ...t,
+          categoriaObj: this.categorias.find(c => c.id === t.categoria),
+          estado: this.mapEstadoToFrontend(t.estado), // <-- Usa función para mapear
+        }));
+      },
+      error: (err) => console.error('Error al cargar tareas:', err),
+    });
+  }
+
+  tareasPorEstado(estado: string): TaskWithCategoria[] {
+    return this.tareas.filter(t => {
+      const coincideEstado = t.estado.toLowerCase() === estado;
+      const coincideCategoria = !this.filtroCategoria || t.categoria === this.filtroCategoria;
+      const coincidePrioridad = !this.filtroPrioridad || t.prioridad === this.filtroPrioridad;
+      const coincideFecha =
+        !this.filtroFecha ||
+        (this.filtroFecha === 'hoy' &&
+          t.fechaEntregaTarea?.startsWith(new Date().toISOString().split('T')[0]));
+      return coincideEstado && coincideCategoria && coincidePrioridad && coincideFecha;
+    });
+  }
+
+  onFiltroChange(): void {
+    // solo fuerza el filtro ya que tareasPorEstado lo hace dinámicamente
+  }
+
+  limpiarFiltros(): void {
+    this.filtroCategoria = null;
+    this.filtroPrioridad = '';
+    this.filtroFecha = '';
+  }
+
+  onDrop(event: CdkDragDrop<TaskWithCategoria[]>, nuevoEstado: string): void {
+    console.log('onDrop llamado:', event, nuevoEstado);
+    const tarea = event.item.data;
+    console.log('Tarea a actualizar:', tarea);
+
+    if (!tarea?.id || !nuevoEstado) return;
+
+    const estadoBackend = this.mapEstadoToBackend(nuevoEstado);
+    const tareaActualizada: Task = {
+      ...tarea,
+      estado: estadoBackend,
+      fechaActualizacion: new Date().toISOString(),
+      usuarioId: this.usuarioId,
+    };
+
+    console.log('Enviando actualización:', tareaActualizada);
+
+    this.taskService.update(tarea.id, tareaActualizada).subscribe({
+      next: (res) => {
+        console.log('Respuesta del backend:', res);
+        tarea.estado = nuevoEstado;
+      },
+      error: (err) => console.error('Error al actualizar estado:', err),
+    });
+  }
+
+  private mapEstadoToBackend(estado: string): string {
+    const map: { [key: string]: string } = {
+      'pendiente': 'Pendiente',
+      'en progreso': 'En_progreso',
+      'completado': 'Hecho',
+      'cancelado': 'Cancelado',
+    };
+    return map[estado] || estado;
+  }
+
+  private mapEstadoToFrontend(estado: string): string {
+    const map: { [key: string]: string } = {
+      'Pendiente': 'pendiente',
+      'En_progreso': 'en progreso',
+      'Hecho': 'completado',
+      'Cancelado': 'cancelado',
+    };
+    return map[estado] || estado.replace('_', ' ').toLowerCase();
+  }
 }
-
-type Columna = 'Por Hacer' | 'En Progreso' | 'En Revisión' | 'Hecho';
-

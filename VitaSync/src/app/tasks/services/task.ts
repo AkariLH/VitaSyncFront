@@ -41,4 +41,8 @@ export class TaskService {
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+  getAllGroupedByEstado(usuarioId: number): Observable<{ [estado: string]: Task[] }> {
+    return this.http.get<{ [estado: string]: Task[] }>(`${this.apiUrl}/agrupadas?usuarioId=${usuarioId}`);
+  }
 }

@@ -445,5 +445,4 @@ main {
 .filter-outline {
   color: transparent;
   -webkit-text-stroke: 2px #4db6ac; /* Ajusta el color y grosor */
-  text-stroke: 2px #4db6ac;
 }
