@@ -1,13 +1,235 @@
-.gantt-demo {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 16px;
+.gantt-calendar {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+  overflow-x: auto;
+  font-family: 'Segoe UI', sans-serif;
 }
 
-.gantt-bar {
-  background: var(--color-primary);
-  padding: 8px;
-  color: white;
+/* Encabezado */
+.gantt-header-row {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.gantt-task-label-header {
+  width: 180px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.gantt-date-range {
+  display: flex;
+  flex-grow: 1;
+}
+
+.gantt-date-header {
+  width: 80px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Cuerpo */
+.gantt-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gantt-task-row {
+  display: flex;
+  align-items: center;
+}
+
+.gantt-task-label {
+  width: 180px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Línea de tiempo por tarea */
+.gantt-task-line {
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+}
+
+.gantt-task-cell {
+  width: 80px;
+  height: 32px;
+  border-right: 1px solid #eee;
+  background: #fafafa;
+}
+
+/* Barra de tarea */
+.gantt-task-bar {
+  position: absolute;
+  top: 2px;
+  height: 28px;
+  overflow: visible;
   border-radius: 6px;
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+  color: white;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  z-index: 2;
+}
+
+.gantt-task-bar-content {
+  position: relative;
+  width: 100%;
+}
+
+.gantt-task-progress {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 60%; /* simulación */
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px 0 0 6px;
+}
+
+/* Estética adicional */
+.gantt-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gantt-btn {
+  background: linear-gradient(to right, #4DB6AC, #45a89f);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.gantt-btn:hover {
+  background: #3399FF;
+}
+
+.gantt-arrow {
+  background: #4DB6AC;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+.gantt-arrow:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.gantt-flecha {
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.gantt-flecha.izquierda {
+  margin-right: 4px;
+}
+
+.gantt-flecha.derecha {
+  margin-left: 4px;
+}
+
+.gantt-filtro-categoria {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f5f7fa;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  width: 100%; /* Ahora ocupa todo el ancho */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  min-height: 56px;
+}
+
+.gantt-filtro-label {
+  font-weight: 500;
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.gantt-filtro-select {
+  padding: 0.4rem 1.2rem 0.4rem 0.6rem;
+  border: 1px solid #b0bec5;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 1rem;
+  color: #333;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.gantt-filtro-select:focus {
+  border: 1.5px solid var(--color-primary);
+}
+
+.gantt-header-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.gantt-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.full-grid {
+  display: grid;
+  grid-template-columns: 180px 40px auto 40px;
+  align-items: center;
+}
+
+.gantt-arrow-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gantt-date-range {
+  display: flex;
+  overflow: hidden;
+}
+
+.gantt-date-header {
+  width: 80px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 180px 40px auto 40px;
+  align-items: center;
 }

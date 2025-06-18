@@ -1,7 +1,65 @@
-<h2>Diagrama de Gantt</h2>
-<p>Cada barra representa una tarea del proyecto.</p>
-<div class="gantt-demo">
-  <div class="gantt-bar" style="width: 40%;">Despliegue</div>
-  <div class="gantt-bar" style="width: 60%;">Pruebas</div>
-  <div class="gantt-bar" style="width: 80%;">Backend</div>
-</div>
+<section class="gantt-calendar">
+
+  <!-- Título y filtro -->
+  <h2 class="gantt-title">Diagrama de Gantt</h2>
+  <div class="gantt-filtro-categoria">
+    <label for="filtroCategoria" class="gantt-filtro-label">Categoría:</label>
+    <select id="filtroCategoria" [(ngModel)]="filtroCategoria" class="gantt-filtro-select">
+      <option value="">Todas</option>
+      <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombreCategoria }}</option>
+    </select>
+  </div>
+
+  <!-- Cabecera -->
+  <div class="gantt-header-row grid-layout">
+    <div class="gantt-task-label-header">Tareas</div>
+
+    <div class="gantt-arrow-cell">
+      <button class="gantt-arrow"
+              (click)="moverVentana(-1)"
+              [disabled]="windowStart === 0">
+        <i class="fa-solid fa-caret-left"></i>
+      </button>
+    </div>
+
+    <div class="gantt-date-range">
+      <div *ngFor="let fecha of fechasVentana" class="gantt-date-header">
+        {{ fecha | date:'dd/MM' }}
+      </div>
+    </div>
+
+    <div class="gantt-arrow-cell">
+      <button class="gantt-arrow"
+              (click)="moverVentana(1)"
+              [disabled]="windowStart + windowSize >= generarFechas().length">
+        <i class="fa-solid fa-caret-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cuerpo de tareas -->
+  <div class="gantt-body">
+    <div *ngFor="let tarea of tareasFiltradas()" class="gantt-task-row grid-layout">
+      
+      <div class="gantt-task-label">{{ tarea.nombreTarea }}</div>
+
+      <div class="gantt-arrow-cell"></div> <!-- espacio vacío para alinear con cabecera -->
+
+      <div class="gantt-task-line">
+        <div *ngFor="let fecha of fechasVentana" class="gantt-task-cell"></div>
+
+        <!-- Barra de tarea -->
+        <div class="gantt-task-bar"
+             [style.left.px]="calcularOffset(tarea) * 80"
+             [style.width.px]="calcularAnchura(tarea) * 80"
+             [style.background]="tarea.categoriaObj?.colorCategoria || '#4DB6AC'"
+             [title]="tooltipTarea(tarea)">
+          <div class="gantt-task-bar-content">{{ tarea.nombreTarea }}</div>
+        </div>
+      </div>
+
+      <div class="gantt-arrow-cell"></div> <!-- espacio vacío para alinear con cabecera -->
+    </div>
+  </div>
+
+</section>
