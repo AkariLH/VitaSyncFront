@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService, Task } from '../../tasks/services/task';
@@ -24,6 +24,8 @@ export class Gantt implements OnInit {
   windowStart: number = 0;
   windowSize: number = 14;
 
+  @Input() reload: boolean = false;
+
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService
@@ -42,6 +44,12 @@ export class Gantt implements OnInit {
       error: (err) => console.error('Error al cargar categorías:', err)
     });
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+  if (changes['reload'] && !changes['reload'].firstChange) {
+    this.cargarTareas(); // O el método que recarga tus datos
+  }
+}
 
   cargarTareas(): void {
     this.taskService.getAll(this.usuarioId).subscribe({

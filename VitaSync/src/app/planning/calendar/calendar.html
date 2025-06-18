@@ -1,8 +1,118 @@
-<h2>Calendario Semanal</h2>
-<p>Visualiza eventos programados.</p>
-<div class="calendar-week">
-  <div class="day" *ngFor="let dia of ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']">
-    <strong>{{ dia }}</strong>
-    <div class="evento" *ngIf="dia === 'Dom'">10:00 Reunión de Equipo</div>
+<div class="calendar-container">
+  <!-- Selector de vista -->
+  <div class="calendar-controls">
+    <button (click)="cambiarVista('mensual')" [class.activo]="vista === 'mensual'">Mensual</button>
+    <button (click)="cambiarVista('semanal')" [class.activo]="vista === 'semanal'">Semanal</button>
+    <button (click)="cambiarVista('diaria')" [class.activo]="vista === 'diaria'">Diaria</button>
+  </div>
+
+  <!-- Encabezado -->
+  <h2 *ngIf="vista === 'mensual'">Vista Mensual</h2>
+  <h2 *ngIf="vista === 'semanal'">Vista Semanal</h2>
+  <h2 *ngIf="vista === 'diaria'">Vista Diaria</h2>
+
+  <!-- Encabezado de mes con botones -->
+  <div *ngIf="vista === 'mensual'" class="calendar-month-header" style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1rem;">
+    <button (click)="cambiarMes(-1)" class="month-nav"><i class="fa-solid fa-caret-left"></i></button>
+    <span style="font-weight:bold;font-size:1.2rem;">
+      {{ anioActual }} - {{
+        ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][mesActual]
+      }}
+    </span>
+    <button (click)="cambiarMes(1)" class="month-nav"><i class="fa-solid fa-caret-right"></i></button>
+    <button (click)="irAHoy()" class="today-btn">Hoy </button>
+  </div>
+
+  <!-- Calendario -->
+  <div *ngIf="vista === 'mensual'" class="calendar-grid-month">
+    <!-- Encabezados de días de la semana -->
+    <div class="day-header" *ngFor="let d of ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']">{{ d }}</div>
+    <!-- Días del mes -->
+    <div *ngFor="let dia of diasMes" 
+         class="day"
+         [class.fuera-de-mes]="dia.fueraDeMes"
+         [class.hoy]="mismaFecha(dia.fecha, hoy)"
+         (click)="seleccionarDia(dia)">
+      <strong>{{ dia.fecha.getDate() }}</strong>
+      <div *ngFor="let tarea of dia.tareas | slice:0:3"
+           class="evento"
+           [ngStyle]="{'background': tarea.categoria?.colorCategoria}"
+           (click)="editarTarea(tarea, $event)">
+        {{ tarea.nombreTarea }}
+      </div>
+      <div *ngIf="dia.tareas.length > 3" class="mas-tareas">
+        +{{ dia.tareas.length - 3 }} más
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="vista === 'semanal'" class="calendar-week-container">
+    <div class="calendar-week-header" style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:1rem;">
+      <button (click)="cambiarSemana(-1)" class="month-nav">&lt;</button>
+      <span style="font-weight:bold;font-size:1.2rem;">
+        Semana del {{ primerDiaSemana | date:'dd/MM/yyyy' }}
+      </span>
+      <button (click)="cambiarSemana(1)" class="month-nav">&gt;</button>
+      <button (click)="irAHoy()" class="today-btn">Hoy</button>
+    </div>
+    <table class="calendar-week-table">
+      <thead>
+        <tr>
+          <th class="hour-cell"></th>
+          <th class="day-header" *ngFor="let dia of semanaActual">
+            {{ dia | date:'EEE dd' }}
+          </th>
+        </tr>
+        <tr>
+          <td class="hour-cell"></td>
+          <td class="tareas-cell" *ngFor="let dia of semanaActual">
+            <div *ngFor="let tarea of getTareasDelDia(dia)" class="evento"
+                 [ngStyle]="{'background': tarea.categoria?.colorCategoria || '#4DB6AC'}"
+                 (click)="editarTarea(tarea, $event)">
+              {{ tarea.nombreTarea }}
+            </div>
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hora of horas">
+          <td class="hour-cell">{{ hora }}</td>
+          <td class="event-cell" *ngFor="let dia of semanaActual"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="vista === 'diaria'" class="calendar-daily-ui">
+    <div class="calendar-daily-header">
+      <button (click)="cambiarDia(-1)" class="nav-btn"><span>&lt;</span></button>
+      <div class="daily-date">
+        <span class="day-name">{{ diaActual | date:'EEEE' }}</span>
+        <span class="day-number">{{ diaActual | date:'d MMMM, yyyy' }}</span>
+      </div>
+      <button (click)="cambiarDia(1)" class="nav-btn"><span>&gt;</span></button>
+      <button (click)="irAHoy()" class="today-btn">Hoy</button>
+    </div>
+    <div class="calendar-daily-content">
+      <div class="daily-tasks">
+        <ng-container *ngIf="getTareasDelDia(diaActual).length; else noTareas">
+          <div *ngFor="let tarea of getTareasDelDia(diaActual)" class="task-chip"
+               [ngStyle]="{'background': tarea.categoria?.colorCategoria || '#4DB6AC'}"
+               (click)="editarTarea(tarea, $event)">
+            <span class="task-dot" [ngStyle]="{'background': tarea.categoria?.colorCategoria || '#4DB6AC'}"></span>
+            {{ tarea.nombreTarea }}
+          </div>
+        </ng-container>
+        <ng-template #noTareas>
+          <span class="no-tasks">No hay tareas para este día.</span>
+        </ng-template>
+      </div>
+      <div class="daily-hours">
+        <div class="hour-row" *ngFor="let hora of horas">
+          <span class="hour-label">{{ hora }}</span>
+          <div class="hour-line"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

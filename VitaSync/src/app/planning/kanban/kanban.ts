@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule, CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -32,6 +32,8 @@ export class Kanban implements OnInit {
   user = JSON.parse(localStorage.getItem('user') || '{}');
   usuarioId = this.user.id || 0;
 
+  @Input() reload: boolean = false;
+
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
@@ -53,6 +55,12 @@ export class Kanban implements OnInit {
       error: (err) => console.error('Error al cargar categorías:', err),
     });
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+  if (changes['reload'] && !changes['reload'].firstChange) {
+    this.cargarTareas(); // O el método que recarga tus datos
+  }
+}
 
   cargarTareas(): void {
     this.taskService.getAll(this.usuarioId).subscribe({

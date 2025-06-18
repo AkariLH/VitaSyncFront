@@ -32,7 +32,12 @@
         </div>
         <app-task-modal 
           *ngIf="showCreateTaskModal"
-          (onClose)="cerrarModalTarea()">
+          [usuarioId]="user.id"
+          [modoEdicion]="false"
+          [tareaAEditar]="null"
+          [tareas]="tasks"
+          (onClose)="cerrarModalTarea()"
+          (onCreate)="onTaskCreated($event)">
         </app-task-modal>
       </div>
 
@@ -45,9 +50,9 @@
 
       <div class="planning-view">
         <ng-container [ngSwitch]="vista">
-          <app-kanban *ngSwitchCase="'kanban'"></app-kanban>
-          <app-gantt *ngSwitchCase="'gantt'"></app-gantt>
-          <app-calendar *ngSwitchCase="'calendario'"></app-calendar>
+          <app-kanban *ngSwitchCase="'kanban'" [reload]="reloadFlag"></app-kanban>
+          <app-gantt *ngSwitchCase="'gantt'" [reload]="reloadFlag"></app-gantt>
+          <app-calendar *ngSwitchCase="'calendario'" [reload]="reloadFlag"></app-calendar>
         </ng-container>
       </div>
     </div>
