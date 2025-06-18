@@ -1,0 +1,40 @@
+<div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal">
+  <div class="modal-header">
+    <h2>Nueva Categoría de Evento</h2>
+    <button class="close-btn" (click)="closeModal()">×</button>
+  </div>
+  <form (ngSubmit)="crearCategoria()" #catForm="ngForm">
+    <div class="form-group">
+      <label>Nombre *</label>
+      <input type="text" [(ngModel)]="categoria.nombre" name="nombre" required />
+    </div>
+    <div class="form-group">
+      <label>Color</label>
+      <div class="color-options">
+        <div 
+          *ngFor="let color of coloresPredeterminados"
+          class="color-circle"
+          [ngStyle]="{'background': color, 'border': categoria.color === color ? '2.5px solid #333' : '2px solid #fff'}"
+          (click)="categoria.color = color"
+          [class.selected]="categoria.color === color"
+        ></div>
+        <label class="color-custom-label" title="Color personalizado">
+          <span 
+            class="color-circle custom"
+            [ngStyle]="{
+              'background': categoria.color, 
+              'border': categoria.color && coloresPredeterminados.indexOf(categoria.color) === -1 ? '2.5px solid #333' : '2px solid #fff'
+            }"
+          >
+            <i class="fa-solid fa-eye-dropper color-icon"></i>
+          </span>
+          <input type="color" [(ngModel)]="categoria.color" name="color" class="color-picker" />
+        </label>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" [disabled]="catForm.invalid">Crear Categoría</button>
+    </div>
+  </form>
+</div>

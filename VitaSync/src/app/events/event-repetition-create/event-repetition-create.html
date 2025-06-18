@@ -1,0 +1,50 @@
+<div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal">
+  <div class="modal-header">
+    <h2>Nueva Repetición</h2>
+    <button class="close-btn" (click)="closeModal()">×</button>
+  </div>
+  <form (ngSubmit)="crearRepeticion()" #repForm="ngForm">
+    <div class="form-row">
+      <label>Repetir cada</label>
+      <input type="number" min="1" [(ngModel)]="repeticion.intervalo" name="intervalo" style="width:60px;" required />
+      <select [(ngModel)]="repeticion.tipo" name="tipo" (change)="onTipoChange()">
+        <option *ngFor="let t of tipos" [value]="t.value">{{t.label}}</option>
+      </select>
+    </div>
+
+    <div class="form-group" *ngIf="repeticion.tipo === 'SEMANAL'">
+      <label>Repetir en</label>
+      <div class="weekdays">
+        <button 
+          type="button"
+          *ngFor="let d of diasSemana; let i = index"
+          [class.selected]="repeticion.dias?.includes(i)"
+          (click)="toggleDia(i)">
+          {{d}}
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Finaliza</label>
+      <div class="ends-options">
+        <label>
+          <input type="radio" [(ngModel)]="repeticion.finTipo" name="finTipo" value="nunca" checked /> Nunca
+        </label>
+        <label>
+          <input type="radio" [(ngModel)]="repeticion.finTipo" name="finTipo" value="fecha" /> En
+          <input type="date" [(ngModel)]="repeticion.finFecha" name="finFecha" [disabled]="repeticion.finTipo !== 'fecha'" />
+        </label>
+        <label>
+          <input type="radio" [(ngModel)]="repeticion.finTipo" name="finTipo" value="ocurrencias" /> Después de
+          <input type="number" min="1" [(ngModel)]="repeticion.finOcurrencias" name="finOcurrencias" [disabled]="repeticion.finTipo !== 'ocurrencias'" style="width:60px;" /> ocurrencias
+        </label>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="repForm.invalid">Crear Repetición</button>
+    </div>
+  </form>
+</div>

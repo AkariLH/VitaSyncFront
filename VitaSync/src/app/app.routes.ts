@@ -14,7 +14,9 @@ import { Emotional } from './emotional/emotional';
 import { Chores } from './chores/chores';
 import { Finance } from './finance/finance';
 import { Settings } from './settings/settings';
-
+import { EventCreate } from './events/event-create/event-create';
+import { EventCategoryCreate } from './events/event-category-create/event-category-create';
+import { EventRepetitionCreate } from './events/event-repetition-create/event-repetition-create';
 export const routes: Routes = [
   {
     path: 'auth',
@@ -38,5 +40,8 @@ export const routes: Routes = [
   {path: 'emocional', component: Emotional},
   {path: 'quehaceres', component: Chores},
   {path: 'finanzas', component: Finance},
-  {path: 'configuracion', component: Settings}
+  {path: 'configuracion', component: Settings},
+  {path: 'eventos/crear', component: EventCreate },
+  {path: 'eventos/categorias', component: EventCategoryCreate },
+  {path: 'eventos/repeticion', component: EventRepetitionCreate }
 ];
