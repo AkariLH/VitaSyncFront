@@ -123,3 +123,10 @@ button[type="button"]:hover {
   background: #4DB6AC;
   color: #fff;
 }
+
+/* Puedes ajustar el selector según tu estructura */
+.blur-background {
+  filter: blur(4px);
+  pointer-events: none; /* Opcional: evita interacción con el fondo */
+  user-select: none;    /* Opcional: evita selección de texto */
+}

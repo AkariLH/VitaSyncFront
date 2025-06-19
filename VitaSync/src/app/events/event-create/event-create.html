@@ -1,52 +1,66 @@
-<div class="modal-backdrop" (click)="closeModal()"></div>
-<div class="modal">
-  <div class="modal-header">
-    <h2>Crear Evento</h2>
-    <button class="close-btn" (click)="closeModal()">×</button>
+<div [ngClass]="{'blur-background': showCategoriaModal || showRepeticionModal}">
+  <div class="modal-backdrop" (click)="closeModal()"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Crear Evento</h2>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+    <form (ngSubmit)="crearEvento()" #eventoForm="ngForm">
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input type="text" [(ngModel)]="evento.nombreEvento" name="nombreEvento" required />
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea [(ngModel)]="evento.descripcionEvento" name="descripcionEvento"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Ubicación</label>
+        <input type="text" [(ngModel)]="evento.ubicacionEvento" name="ubicacionEvento" />
+      </div>
+      <div class="form-row">
+        <label>Inicio *</label>
+        <input type="datetime-local" [(ngModel)]="evento.fechaInicioEvento" name="fechaInicioEvento" required />
+        <label>Fin *</label>
+        <input type="datetime-local" [(ngModel)]="evento.fechaFinEvento" name="fechaFinEvento" required />
+      </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="evento.allday" name="allday" />
+          Todo el día
+        </label>
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <select [(ngModel)]="evento.categoriaId" name="categoriaId">
+          <option [ngValue]="null">Sin categoría</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombre}}</option>
+        </select>
+        <button type="button" (click)="abrirModalCategoria()">+ Nueva categoría</button>
+      </div>
+      <div class="form-group">
+        <label>Repetición</label>
+        <select [(ngModel)]="evento.repetirId" name="repetirId">
+          <option [ngValue]="null">Sin repetición</option>
+          <option *ngFor="let rep of repeticiones" [ngValue]="rep.id">{{ rep.descripcion || ('Repetición ' + rep.id) }}</option>
+        </select>
+        <button type="button" (click)="abrirModalRepeticion()">+ Nueva repetición</button>
+      </div>
+      <div class="form-actions">
+        <button type="submit" [disabled]="eventoForm.invalid">Crear Evento</button>
+      </div>
+    </form>
   </div>
-  <form (ngSubmit)="crearEvento()" #eventoForm="ngForm">
-    <div class="form-group">
-      <label>Nombre *</label>
-      <input type="text" [(ngModel)]="evento.nombreEvento" name="nombreEvento" required />
-    </div>
-    <div class="form-group">
-      <label>Descripción</label>
-      <textarea [(ngModel)]="evento.descripcionEvento" name="descripcionEvento"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Ubicación</label>
-      <input type="text" [(ngModel)]="evento.ubicacionEvento" name="ubicacionEvento" />
-    </div>
-    <div class="form-row">
-      <label>Inicio *</label>
-      <input type="datetime-local" [(ngModel)]="evento.fechaInicioEvento" name="fechaInicioEvento" required />
-      <label>Fin *</label>
-      <input type="datetime-local" [(ngModel)]="evento.fechaFinEvento" name="fechaFinEvento" required />
-    </div>
-    <div class="form-group">
-      <label>
-        <input type="checkbox" [(ngModel)]="evento.allday" name="allday" />
-        Todo el día
-      </label>
-    </div>
-    <div class="form-group">
-      <label>Categoría</label>
-      <select [(ngModel)]="evento.categoriaId" name="categoriaId">
-        <option [ngValue]="null">Sin categoría</option>
-        <option *ngFor="let cat of categorias" [ngValue]="cat.id">{{cat.nombre}}</option>
-      </select>
-      <button type="button" (click)="abrirModalCategoria()">+ Nueva categoría</button>
-    </div>
-    <div class="form-group">
-      <label>Repetición</label>
-      <select [(ngModel)]="evento.repetirId" name="repetirId">
-        <option [ngValue]="null">Sin repetición</option>
-        <option *ngFor="let rep of repeticiones" [ngValue]="rep.id">{{ rep.descripcion || ('Repetición ' + rep.id) }}</option>
-      </select>
-      <button type="button" (click)="abrirModalRepeticion()">+ Nueva repetición</button>
-    </div>
-    <div class="form-actions">
-      <button type="submit" [disabled]="eventoForm.invalid">Crear Evento</button>
-    </div>
-  </form>
 </div>
+  
+<app-event-category-create
+  *ngIf="showCategoriaModal"
+  (onClose)="cerrarModalCategoria()"
+  (onCreate)="categoriaCreada($event)">
+</app-event-category-create>
+
+<app-event-repetition-create
+  *ngIf="showRepeticionModal"
+  (onClose)="cerrarModalRepeticion()"
+  (onCreate)="repeticionCreada($event)">
+</app-event-repetition-create>

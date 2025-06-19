@@ -6,10 +6,11 @@ import { Gantt } from '../gantt/gantt';
 import { Calendar } from '../calendar/calendar';
 import { TaskCreate } from '../../tasks/components/task-create/task-create';
 import { TaskService } from '../../tasks/services/task';
+import { EventCreate } from '../../events/event-create/event-create';
 
 @Component({
   selector: 'app-planning',
-  imports: [CommonModule, Sidebar,Kanban,Gantt,Calendar, TaskCreate],
+  imports: [CommonModule, Sidebar,Kanban,Gantt,Calendar, TaskCreate, EventCreate],
   templateUrl: './planning.html',
   styleUrl: './planning.css'
 })
@@ -17,6 +18,7 @@ export class Planning {
   sidebarOpen = true;
   vista: 'kanban' | 'gantt' | 'calendario' = 'kanban';
   showCreateTaskModal = false;
+  showCreateEventModal: boolean = false;
   modalVisible = false;
   tasks: any[] = [];
   categorias: any[] = [];
@@ -39,7 +41,11 @@ export class Planning {
   }
 
   abrirModalEvento() {
-    // lógica para modal de evento
+    this.showCreateEventModal = true;
+  }
+
+  cerrarModalEvento() {
+    this.showCreateEventModal = false;
   }
 
   closeSidebar() {
@@ -61,5 +67,10 @@ export class Planning {
       },
       error: () => alert('Error al cargar las tareas.')
     });
+  }
+
+  onEventCreated(event: any) {
+    this.showCreateEventModal = false;
+    this.reloadFlag = !this.reloadFlag;
   }
 }

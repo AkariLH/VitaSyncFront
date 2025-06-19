@@ -39,6 +39,13 @@
           (onClose)="cerrarModalTarea()"
           (onCreate)="onTaskCreated($event)">
         </app-task-modal>
+
+        <app-event-create
+          *ngIf="showCreateEventModal"
+          [usuarioId]="user.id"
+          (onClose)="cerrarModalEvento()"
+          (onCreate)="onEventCreated($event)">
+        </app-event-create>
       </div>
 
       <!-- Tabs o secciones -->
