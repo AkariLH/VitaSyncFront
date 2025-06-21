@@ -1,49 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Sidebar } from '../../sidebar/sidebar';
+import { RoutineService, Routine } from '../service/service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-routines',
   standalone: true,
   templateUrl: './routines.html',
   styleUrls: ['./routines.css'],
-  imports: [CommonModule, Sidebar]
+  imports: [CommonModule, Sidebar, HttpClientModule],
+  providers: [RoutineService]
 })
-export class Routines {
+export class Routines implements OnInit {
   sidebarOpen = true;
-  rutinas = [
-    {
-      nombre: 'Rutina Matutina',
-      descripcion: 'Comienza el día fresco y productivo.',
-      frecuencia: 'Diaria',
-      hora: '07:00',
-      duracion: 60,
-      pasosCompletados: 2,
-      pasos: [
-        { nombre: 'Beber Agua', completado: true },
-        { nombre: 'Meditar 10 min', completado: false },
-        { nombre: 'Planificar Día', completado: true }
-      ]
-    },
-    {
-      nombre: 'Relajación Nocturna',
-      descripcion: 'Prepárate para un sueño reparador.',
-      frecuencia: 'Lu, Ma, Mi, Ju, Vi',
-      hora: '21:30',
-      duracion: 45,
-      pasosCompletados: 1,
-      pasos: [
-        { nombre: 'Leer un libro', completado: false },
-        { nombre: 'Sin pantallas 1h antes de dormir', completado: false },
-        { nombre: 'Estiramientos suaves', completado: true }
-      ]
-    }
-  ];
+  rutinas: Routine[] = [];
+  user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  togglePaso(rutina: any, index: number) {
-    const paso = rutina.pasos[index];
-    paso.completado = !paso.completado;
-    rutina.pasosCompletados = rutina.pasos.filter((p: any) => p.completado).length;
+  constructor(private routineService: RoutineService) {}
+
+  ngOnInit() {
+    if (this.user?.id) {
+      this.routineService.getRoutinesByUser(this.user.id).subscribe({
+        next: (rutinas) => {
+          // Cargar subrutinas para cada rutina
+          rutinas.forEach(rutina => {
+            this.routineService.getSubrutinasByRoutine(rutina.id).subscribe(subs => {
+              rutina.subrutinas = subs;
+            });
+          });
+          this.rutinas = rutinas;
+        },
+        error: () => alert('Error al cargar rutinas')
+      });
+    }
+  }
+
+  togglePaso(rutina: Routine, index: number) {
+    // Aquí puedes implementar lógica para marcar pasos como completados (local o backend)
+    if (rutina.subrutinas) {
+      // Ejemplo: alternar completado localmente
+      // rutina.subrutinas[index].completado = !rutina.subrutinas[index].completado;
+    }
   }
 
   crearRutina() {

@@ -28,35 +28,26 @@
         <div class="routine-card" *ngFor="let rutina of rutinas">
           <div class="routine-header">
             <div>
-              <h2>{{ rutina.nombre }}</h2>
-              <p>{{ rutina.descripcion }}</p>
+              <h2>{{ rutina.nombreRutina }}</h2>
+              <p>{{ rutina.descripcionRutina }}</p>
             </div>
             <div class="tags">
-              <span class="tag">{{ rutina.frecuencia }}</span>
+              <span class="tag">{{ rutina.repeticion }}</span>
             </div>
           </div>
 
           <div class="routine-info">
-            <p><i class="fa fa-clock"></i> Hora: {{ rutina.hora }}</p>
-            <p><i class="fa fa-hourglass-start"></i> Duración: {{ rutina.duracion }} min</p>
+            <p><i class="fa fa-clock"></i> Hora: {{ rutina.horaInicioRutina }}</p>
+            <p><i class="fa fa-hourglass-start"></i> Duración: {{ rutina.duracionRutinaMinutos }} min</p>
           </div>
 
-          <div class="progress-bar">
-            <div class="progress-fill" [style.width.%]="(rutina.pasosCompletados / rutina.pasos.length) * 100"></div>
-          </div>
-          <small class="progress-text">{{ rutina.pasosCompletados }} de {{ rutina.pasos.length }}</small>
+          <small class="progress-text" *ngIf="rutina.subrutinas?.length">
+            {{ rutina.subrutinas?.length }} pasos
+          </small>
 
           <div class="routine-steps">
-            <div *ngFor="let paso of rutina.pasos; let i = index" class="step">
-              <span [class.done]="paso.completado">{{ paso.nombre }}</span>
-              <button
-                class="check-btn"
-                [class.checked]="paso.completado"
-                (click)="togglePaso(rutina, i)">
-                <svg viewBox="0 0 24 24" class="checkmark">
-                  <path d="M6 12l4 4 8-8" />
-                </svg>
-              </button>
+            <div *ngFor="let paso of rutina.subrutinas; let i = index" class="step">
+              <span>{{ paso.name }}</span>
             </div>
           </div>
 
