@@ -17,6 +17,7 @@ import { Settings } from './settings/settings';
 import { EventCreate } from './events/event-create/event-create';
 import { EventCategoryCreate } from './events/event-category-create/event-category-create';
 import { EventRepetitionCreate } from './events/event-repetition-create/event-repetition-create';
+import { CreateRoutine } from './routines/create-routine/create-routine';
 export const routes: Routes = [
   {
     path: 'auth',
@@ -43,5 +44,6 @@ export const routes: Routes = [
   {path: 'configuracion', component: Settings},
   {path: 'eventos/crear', component: EventCreate },
   {path: 'eventos/categorias', component: EventCategoryCreate },
-  {path: 'eventos/repeticion', component: EventRepetitionCreate }
+  {path: 'eventos/repeticion', component: EventRepetitionCreate },
+  {path: 'rutinas/crear', component: CreateRoutine}
 ];

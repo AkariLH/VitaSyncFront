@@ -1,0 +1,56 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Crear Nueva Rutina</h2>
+      <button class="close-btn" (click)="cerrar()">×</button>
+    </div>
+
+    <div class="form-group">
+      <label for="nombre">Nombre de la Rutina</label>
+      <input type="text" id="nombre" [(ngModel)]="rutina.nombreRutina" />
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea id="descripcion" rows="3" [(ngModel)]="rutina.descripcion"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half">
+        <label for="hora">Hora de Inicio</label>
+        <input type="time" id="hora" [(ngModel)]="rutina.horaInicio" />
+      </div>
+      <div class="form-group half">
+        <label for="duracion">Duración (minutos)</label>
+        <input type="number" id="duracion" [(ngModel)]="rutina.duracion" placeholder="ej. 30" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Días de Repetición</label>
+      <div class="dias">
+        <label *ngFor="let dia of ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']">
+          <input type="checkbox" [value]="dia" [checked]="rutina.diasRepeticion.includes(dia)" (change)="toggleDia(dia)" />
+          {{ dia }}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Pasos de la Rutina</label>
+      <p *ngIf="rutina.pasos.length === 0">Aún no hay pasos definidos para esta rutina.</p>
+      <ul class="pasos">
+        <li *ngFor="let paso of rutina.pasos; let i = index">
+          {{ paso }} <button class="remove-btn" (click)="eliminarPaso(i)">×</button>
+        </li>
+      </ul>
+
+      <div class="form-row">
+        <input type="text" [(ngModel)]="nuevoPaso" placeholder="Nombre del nuevo paso" />
+        <button class="secondary" (click)="agregarPaso()">Añadir Paso</button>
+      </div>
+    </div>
+
+    <button class="btn-create" (click)="guardar()">Crear Rutina</button>
+  </div>
+</div>
