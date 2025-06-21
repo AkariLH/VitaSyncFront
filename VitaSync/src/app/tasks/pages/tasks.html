@@ -71,14 +71,16 @@
       <select id="estadoFilter" [(ngModel)]="filtroEstado" (change)="aplicarFiltros()">
         <option [ngValue]="null">Todos</option>
         <option value="Pendiente">Pendiente</option>
-        <option value="En Progreso">En Progreso</option>
-        <option value="Completado">Completado</option>
+        <option value="En_progreso">En Progreso</option>
+        <option value="Hecho">Completado</option>
+        <option value="Cancelado">Cancelado</option>
       </select>
     </div>
     <div class="filter-box">
       <label for="prioridadFilter">Prioridad:</label>
       <select id="prioridadFilter" [(ngModel)]="filtroPrioridad" (change)="aplicarFiltros()">
         <option [ngValue]="null">Todas</option>
+        <option value="critica">Critica</option>
         <option value="alta">Alta</option>
         <option value="media">Media</option>
         <option value="baja">Baja</option>
