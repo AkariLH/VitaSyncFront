@@ -26,6 +26,8 @@ export class CategoryModal implements OnInit {
     '#9C27B0', '#3F51B5', '#00BCD4', '#E91E63'
   ];
 
+  editandoCategoriaId: number | null = null;
+
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit() {
@@ -43,22 +45,44 @@ export class CategoryModal implements OnInit {
     this.nuevaCategoria.colorCategoria = color;
   }
 
-  add(): void {
+  addOrUpdate(): void {
     if (!this.nuevaCategoria.nombreCategoria?.trim()) {
       alert('Debes escribir un nombre para la categoría');
       return;
     }
 
-    this.categoryService.create(this.nuevaCategoria).subscribe({
-      next: (cat) => {
-        this.categorias.push(cat);
-        this.nuevaCategoria = {
-          nombreCategoria: '',
-          colorCategoria: '#4CAF50'
-        };
-      },
-      error: () => alert('Error al crear la categoría')
-    });
+    if (this.editandoCategoriaId) {
+      this.categoryService.update(this.nuevaCategoria).subscribe({
+        next: (cat) => {
+          const idx = this.categorias.findIndex(c => c.id === this.editandoCategoriaId);
+          if (idx !== -1) this.categorias[idx] = cat;
+          this.resetForm();
+        },
+        error: () => alert('Error al actualizar la categoría')
+      });
+    } else {
+      // Añadir nueva
+      this.categoryService.create(this.nuevaCategoria).subscribe({
+        next: (cat) => {
+          this.categorias.push(cat);
+          this.resetForm();
+        },
+        error: () => alert('Error al crear la categoría')
+      });
+    }
+  }
+
+  edit(cat: Categoria) {
+    this.nuevaCategoria = { ...cat };
+    this.editandoCategoriaId = cat.id ?? null;
+  }
+
+  resetForm() {
+    this.nuevaCategoria = {
+      nombreCategoria: '',
+      colorCategoria: '#4CAF50'
+    };
+    this.editandoCategoriaId = null;
   }
 
   delete(cat: Categoria) {
@@ -67,10 +91,6 @@ export class CategoryModal implements OnInit {
         this.categorias = this.categorias.filter(c => c.id !== cat.id);
       });
     }
-  }
-
-  edit(cat: Categoria) {
-    this.nuevaCategoria = { ...cat };
   }
 
   close() {
