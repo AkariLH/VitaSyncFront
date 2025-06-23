@@ -161,9 +161,12 @@ export class Routines implements OnInit {
     let registro = this.getRegistroDeHoy(rutina.id);
 
     if (!registro) {
+      const now = new Date();
+      const fechaLocalDateTime = now.toISOString().slice(0, 19); // "2025-06-22T18:27:21"
+
       const nuevoRegistro = {
         rutina: { id: rutina.id },
-        fecha: new Date().toISOString().slice(0, 19),
+        fecha: fechaLocalDateTime, // Siempre enviar con hora
         horaInicio: rutina.horaInicioRutina,
         pasosCompletados: nuevosCompletados
       };
