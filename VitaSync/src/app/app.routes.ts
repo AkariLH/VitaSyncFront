@@ -8,7 +8,7 @@ import { authGuard } from './auth/auth.guard';
 import { loginGuard } from './auth/login/login.guard';
 import { Sidebar } from './sidebar/sidebar';
 import { Planning } from './planning/planning/planning';
-import { Habits } from './habits/habits';
+import { Habits } from './habits/habits/habits';
 import { ShoppingList } from './shopping-list/shopping-list';
 import { Emotional } from './emotional/emotional';
 import { Chores } from './chores/chores';
@@ -18,6 +18,7 @@ import { EventCreate } from './events/event-create/event-create';
 import { EventCategoryCreate } from './events/event-category-create/event-category-create';
 import { EventRepetitionCreate } from './events/event-repetition-create/event-repetition-create';
 import { CreateRoutine } from './routines/create-routine/create-routine';
+import { CreateHabit } from './habits/create-habit/create-habit';
 export const routes: Routes = [
   {
     path: 'auth',
@@ -45,5 +46,6 @@ export const routes: Routes = [
   {path: 'eventos/crear', component: EventCreate },
   {path: 'eventos/categorias', component: EventCategoryCreate },
   {path: 'eventos/repeticion', component: EventRepetitionCreate },
-  {path: 'rutinas/crear', component: CreateRoutine}
+  {path: 'rutinas/crear', component: CreateRoutine},
+  {path: 'habitos/crear', component: CreateHabit}
 ];

@@ -1,0 +1,49 @@
+<div class="modal-backdrop" (click)="onClose()"></div>
+<div class="modal" (click)="$event.stopPropagation()">
+  <div class="modal-header">
+    <h2>Crear Hábito</h2>
+    <button class="close-btn" type="button" (click)="onClose()">&times;</button>
+  </div>
+  <form [formGroup]="habitForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input id="nombre" formControlName="nombre" type="text" />
+    </div>
+    <div class="form-group">
+      <label for="descipcion">Descripción</label>
+      <input id="descipcion" formControlName="descipcion" type="text" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="frecuencia">Frecuencia</label>
+        <select id="frecuencia" formControlName="frecuencia">
+          <option *ngFor="let f of frecuencias" [value]="f">{{ f }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="objetivo">Objetivo</label>
+        <input id="objetivo" formControlName="objetivo" type="number" min="1" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="inicio">Inicio</label>
+        <input id="inicio" formControlName="inicio" type="date" />
+      </div>
+      <div class="form-group">
+        <label for="fin">Fin</label>
+        <input id="fin" formControlName="fin" type="date" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" formControlName="activo" />
+        Activo
+      </label>
+    </div>
+    <div class="form-actions">
+      <button class="btn-outline" type="button" (click)="onClose()">Cancelar</button>
+      <button class="btn-primary" type="submit" [disabled]="habitForm.invalid">Crear</button>
+    </div>
+  </form>
+</div>
