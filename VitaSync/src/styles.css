@@ -11,7 +11,7 @@
   --color-subtitule: hsl(0, 0%, 45.1%);
   --radius: 12px;
   --btn-radius: 6px;
-  --transition: 0.3s ease;
+  --transition: all 0.25s var(--transition);
 }
 
 body {

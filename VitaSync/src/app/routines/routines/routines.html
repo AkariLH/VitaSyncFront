@@ -14,49 +14,106 @@
   <div class="main-content">
     <div class="routine-page">
       <div class="header-row">
-        <div class="header-title-icon">
-          <i class="fa fa-retweet main-color routine-icon"></i>
-          <div>
-            <h1 class="title">Rutinas</h1>
-            <p class="subtitle">Crea consistencia con rutinas estructuradas y sigue el progreso de sus pasos.</p>
-          </div>
+       <div class="header-title-icon">
+        <div class="icon-container">
+          <i class="fa fa-retweet routine-icon"></i>
         </div>
+        <div class="text-container">
+          <h1 class="title">Rutinas</h1>
+          <p class="subtitle">Crea consistencia con rutinas estructuradas y sigue el progreso de sus pasos.</p>
+        </div>
+      </div>
         <button class="btn-primary" (click)="crearRutina()">+ Crear Rutina</button>
       </div>
-
+      
       <div class="routine-grid">
+        <!-- Card de rutina -->
         <div class="routine-card" *ngFor="let rutina of rutinas">
-          <div class="routine-header">
-            <div>
+          <ng-container *ngIf="getRegistroActual(rutina.id) as registro; else sinRegistro">
+            <div class="routine-header">
               <h2>{{ rutina.nombreRutina }}</h2>
-              <p>{{ rutina.descripcionRutina }}</p>
+              <span class="tag">{{ rutina.repeticion || 'Diaria' }}</span>
             </div>
-            <div class="tags">
-              <span class="tag">{{ rutina.repeticion }}</span>
+            <p class="routine-desc">{{ rutina.descripcionRutina }}</p>
+            <div class="routine-meta">
+              <span><i class="fa-regular fa-clock"></i> Hora: {{ rutina.horaInicioRutina }}</span>
+              <span><i class="fa-regular fa-hourglass-half"></i> Duración: {{ rutina.duracionRutinaMinutos }} min</span>
             </div>
-          </div>
-
-          <div class="routine-info">
-            <p><i class="fa fa-clock"></i> Hora: {{ rutina.horaInicioRutina }}</p>
-            <p><i class="fa fa-hourglass-start"></i> Duración: {{ rutina.duracionRutinaMinutos }} min</p>
-          </div>
-
-          <small class="progress-text" *ngIf="rutina.subrutinas?.length">
-            {{ rutina.subrutinas?.length }} pasos
-          </small>
-
-          <div class="routine-steps">
-            <div *ngFor="let paso of rutina.subrutinas; let i = index" class="step">
-              <span>{{ paso.name }}</span>
+            <div class="routine-progress">
+              <span>Progreso</span>
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="getProgress(rutina, getRegistroDeHoy(rutina.id)!)"></div>
+              </div>
+              <span class="progress-text">{{ getCompleted(rutina, getRegistroDeHoy(rutina.id)!) }} de {{ rutina.subrutinas?.length }}</span>
             </div>
-          </div>
-
-          <div class="routine-actions">
-            <button title="Editar"><i class="fa fa-pen"></i></button>
-            <button title="Eliminar"><i class="fa fa-trash"></i></button>
-          </div>
+            <div class="routine-steps">
+              <span>Pasos:</span>
+              <ul class="step-list">
+                <li *ngFor="let paso of rutina.subrutinas; let i = index" class="step-row">
+                  <input
+                    type="checkbox"
+                    [checked]="isPasoChecked(rutina, i)"
+                    (change)="onPasoCheck(rutina, i, $event)"
+                    [disabled]="i > 0 && !isPasoChecked(rutina,i-1)"
+                  />
+                  <span class="step-text" [class.done]="isPasoChecked(rutina, i)">
+                    {{ paso.nombrePaso }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="routine-actions">
+              <button class="edit-btn" (click)="editarRutina(rutina)"><i class="fa fa-pen"></i></button>
+              <button class="delete-btn" (click)="eliminarRutina(rutina)"><i class="fa fa-trash"></i></button>
+            </div>
+          </ng-container>
+          <ng-template #sinRegistro>
+            <!-- Card sin registro -->
+            <div class="routine-header">
+              <h2>{{ rutina.nombreRutina }}</h2>
+              <span class="tag">{{ rutina.repeticion || 'Diaria' }}</span>
+            </div>
+            <p class="routine-desc">{{ rutina.descripcionRutina }}</p>
+            <div class="routine-meta">
+              <span><i class="fa-regular fa-clock"></i> Hora: {{ rutina.horaInicioRutina }}</span>
+              <span><i class="fa-regular fa-hourglass-half"></i> Duración: {{ rutina.duracionRutinaMinutos }} min</span>
+            </div>
+            <div class="routine-progress">
+              <span>Progreso</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+              </div>
+              <span class="progress-text">0 de {{ rutina.subrutinas?.length }}</span>
+            </div>
+            <div class="routine-steps">
+              <span>Pasos:</span>
+              <ul class="step-list">
+                <li *ngFor="let paso of rutina.subrutinas; let i = index" class="step-row">
+                  <input
+                    type="checkbox"
+                    [checked]="isPasoChecked(rutina, i)"
+                    (change)="onPasoCheck(rutina, i, $event)"
+                    [disabled]="i > 0 && !isPasoChecked(rutina,i-1)"
+                  />
+                  <span class="step-text" [class.done]="isPasoChecked(rutina, i)">
+                    {{ paso.nombrePaso }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="routine-actions">
+              <button class="edit-btn" (click)="editarRutina(rutina)"><i class="fa fa-pen"></i></button>
+              <button class="delete-btn" (click)="eliminarRutina(rutina)"><i class="fa fa-trash"></i></button>
+            </div>
+          </ng-template>
         </div>
       </div>
+
+      <app-create-routine 
+        *ngIf="showCreateModal"
+        (onSave)="onSaveRutina($event)"
+        (onClose)="showCreateModal = false">
+      </app-create-routine>
     </div>
   </div>
 </div>

@@ -1,17 +1,33 @@
 .routine-page {
   padding: 2rem;
-  background: var(--color-background);
+  background-color: var(--color-background);
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  background: var(--color-background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.title{
+font-size: 35px;
+font-weight: 700;
+color: var(--color-foreground);
+margin: 0;
+}
+
+.subtitle{
+  color: var(--color-subtitule);
+  font-size: 25px;
+  margin: 4px 0 0 0;
+  max-width: 100%;
 }
 
 .header-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 2rem;
+  margin-right: 4.0rem; /* Más espacio a la derecha */
 }
 
 .btn-primary {
@@ -20,9 +36,10 @@
   border: none;
   padding: 12px 20px;
   border-radius: var(--btn-radius);
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background var(--transition);
 }
 .btn-primary:hover {
   background-color: #3ca89d;
@@ -30,201 +47,208 @@
 
 .routine-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
 }
 
 .routine-card {
-  background: white;
+  background-color: white;
   border-radius: var(--radius);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
-  padding: 1.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   transition: transform 0.2s ease;
 }
 .routine-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
 }
 
 .routine-header {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
+  align-items: center;
 }
-
 .routine-header h2 {
-  margin: 0;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: bold;
   color: var(--color-foreground);
-  font-weight: 600;
+  margin: 0;
 }
-
-.routine-header p {
+.tag {
   font-size: 13px;
-  color: var(--color-subtitule);
-  margin: 4px 0 0 0;
-}
-
-.tags .tag {
-  background: var(--color-muted);
-  padding: 5px 12px;
-  border-radius: 50px;
-  font-size: 12px;
+  background-color: var(--color-muted);
+  color: #444;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-weight: 500;
-  color: #333;
-  white-space: nowrap;
 }
 
-.routine-info {
+.routine-desc {
+  margin: 1rem 0;
+  color: var(--color-subtitule);
+  font-size: 14px;
+}
+
+.routine-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
   font-size: 13px;
   color: var(--color-text);
-  margin: 10px 0 12px;
 }
-.routine-info i {
+.routine-meta i {
   margin-right: 6px;
   color: var(--color-subtitule);
 }
 
+.routine-progress {
+  margin-bottom: 1rem;
+}
 .progress-bar {
-  height: 6px;
+  height: 8px;
   background: var(--color-muted);
   border-radius: 4px;
   overflow: hidden;
+  margin-top: 4px;
 }
 .progress-fill {
-  background: var(--color-primary);
   height: 100%;
-  width: 0;
-  transition: width 0.3s ease;
+  background: var(--color-primary);
+  transition: width 0.3s ease-in-out;
 }
+
 .progress-text {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-subtitule);
-  margin: 6px 0 10px;
+  margin-top: 6px;
 }
 
 .routine-steps {
+  margin-bottom: 1rem;
+}
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 10px;
 }
-
-.step {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
+.step-row {
+  background: #f9f9f9;
+  padding: 10px 14px;
   border-radius: var(--btn-radius);
-  padding: 8px 12px;
-  font-size: 14px;
-  transition: background 0.2s ease;
-}
-
-.step:hover {
-  background: var(--color-muted);
-}
-
-.step span {
-  color: var(--color-text);
-  transition: color 0.2s ease;
-}
-.step span.done {
-  text-decoration: line-through;
-  color: var(--color-subtitule);
-}
-
-.check-btn {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid var(--color-subtitule);
-  background-color: white;
-  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  gap: 12px;
+  border: 1px solid var(--color-muted);
+}
+.step-text {
+  font-size: 14px;
+  color: var(--color-text);
+  transition: color var(--transition);
+}
+.step-text.done {
+  text-decoration: line-through;
+  color: #999;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--color-muted);
+  background-color: white;
+  position: relative;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
-
-.check-btn.checked {
+input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
   border-color: var(--color-primary);
-  animation: bounce 0.25s ease-out;
 }
-
-@keyframes bounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-.checkmark {
-  width: 20px;
-  height: 20px;
-  stroke: var(--color-primary);
-  stroke-width: 2;
-  stroke-linecap: round;
-  fill: none;
-  stroke-dasharray: 20;
-  stroke-dashoffset: 20;
-  transform: translateY(-50%);
-  transition: stroke-dashoffset 0.3s ease, transform 0.3s ease;
-}
-
-.check-btn.checked .checkmark {
-  stroke-dashoffset: 0;
-  transform: translateY(0%);
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  font-size: 12px;
+  color: white;
+  position: absolute;
+  top: 0px;
+  left: 4px;
 }
 
 .routine-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 8px;
 }
-
 .routine-actions button {
-  background: none;
   border: none;
+  background: none;
   font-size: 16px;
   color: var(--color-subtitule);
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--transition);
 }
 .routine-actions button:hover {
   color: var(--color-accent);
 }
 
-/* Agrupa el título, subtítulo e ícono en una sola fila */
 .header-title-icon {
   display: flex;
   align-items: center;
   gap: 16px;
-  flex-direction: row;
+  margin-bottom: 24px;
+}
+
+.text-container .title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.text-container .subtitle {
+  margin: 2px 0 0 0;
+  color: var(--color-subtitule);
+  font-size: 20px;
 }
 
 .routine-icon {
-  font-size: 2.5rem;
-  order: 0;
-}
-
-
-.main-color {
   color: var(--color-primary);
+  font-size: 40px;
 }
 
-@media (max-width: 1024px) {
-  .routine-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Tarjeta al pasar el mouse */
+.routine-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(142, 36, 170, 0.12); /* leve toque violeta */
+  border: 1px solid var(--color-accent);
 }
 
-@media (max-width: 680px) {
-  .routine-grid {
-    grid-template-columns: 1fr;
-  }
+/* Botón crear rutina con efecto accent */
+.btn-primary:hover {
+  background-color: var(--color-accent);
+}
+
+/* Input checkbox con sombra cool */
+input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.3);
+}
+
+/* Hover sobre paso para acento */
+.step-row:hover {
+  border-color: var(--color-accent);
+  background-color: #f7f2f9;
+}
+
+/* Ícono de editar con efecto cool */
+.routine-actions button:hover {
+  color: var(--color-accent);
+  transform: scale(1.1);
 }
